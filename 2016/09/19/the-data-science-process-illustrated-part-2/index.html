@@ -1,0 +1,1431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="Vinay Huddar" />
+        <meta name="keywords" content="Notebook,DataScience,EDA,Sparse,LogisticRegression,XGBoost,GBM,Pandas,Python,scikit-learn,Categorical,OneHotEncoding" />
+        <meta name="description" content="In the first part of this series I briefly described my prespective of the Data Science Process and illustrated it with a case study from Kaggle&#39;s &#39;Predicting RedHat Business Value&#39; competition. Since the post was getting too long and I didn&#39;t want many TL;DRs, I stopped after the &#34;Exploratory Data Analysis&#34; (EDA)" />
+
+
+    <title>The Data Science Process Illustrated - Part 2 - My Data Science Lab</title>
+
+        <link rel="stylesheet" href="/theme/css/bootstrap.sandstone.min.css" type="text/css"/>
+
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/theme/css/pygments/colorful.css" rel="stylesheet" />
+    
+    <link href="/theme/css/pelican-twitchy.min.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Feeds -->
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="My Data Science Lab ATOM Feed" />
+</head>
+<body data-spy="scroll" data-target="#scrollspy">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper-small" class="twitchy-background">
+            <ul id="accordion-small" class="sidebar-nav sidebar-nav-small">
+                <li>
+        <a href="" title="My Data Science Lab" class="collapsed">
+            <span class="glyphicon glyphicon-home"></span>
+        </a>
+    </li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="/archives.html" title="Recent Articles" class="collapsed">
+            <span class="glyphicon glyphicon-th-list"></span>
+        </a>
+    </li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion-small" href="#collapse-social-small" title="Social" class="collapsed">
+                        <i class="fa fa-users padding-small"></i>
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social-small" class="collapse ">
+                    <li>
+                        <a href="mailto:huddar.vinay@gmail.com" title="EMAIL"><i class="fa fa-envelope-square fa-lg padding-small"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/VinayHuddar" title="GitHub"><i class="fa fa-github-square fa-lg padding-small"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/vinay-huddar" title="LinkedIn"><i class="fa fa-linkedin-square fa-lg padding-small"></i></a>
+                    </li>
+                </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="#" title="Back to top" class="collapsed">
+            <span class="fa fa-arrow-up"></span>
+        </a>
+    </li>
+            </ul>
+        </div>
+        <div id="sidebar-wrapper" class="twitchy-background">
+            <ul id="accordion" class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                            <span class="glyphicon glyphicon-home padding-small"></span>
+                            My Data Science Lab
+                    </a>
+                </li>
+                    <li class="nav-divider"></li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-latest">
+                            <span class="glyphicon glyphicon-th-list padding-small"></span>
+                            Recent Articles
+                        </a>
+                    </li>
+                    <li class="panel anti-panel"><ul id="collapse-latest" class="sidebar_submenu collapse in">
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/28/bike-rentals-prediction/" title="Predicting Bike Rentals">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Predicting Bike Rentals
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/27/groupo-bimbo-demand-prediction-part2/" title="Groupo Bimbo Demand Prediction - Part2">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Groupo Bimbo Demand Prediction - Part2
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/25/groupo-bimbo-demand-prediction-part1/" title="Groupo Bimbo Demand Prediction - Part1">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Groupo Bimbo Demand Prediction - Part1
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/22/talkingdata-user-demographics-predictions-part1/" title="TalkingData Mobile User Demographics - Part 1">
+                                <i class="fa fa-file-text padding-small"></i>
+                                TalkingData Mobile User Demographics - Part 1
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/22/talkingdata-user-demographics-predictions-part2/" title="TalkingData Mobile User Demographics - Part 2">
+                                <i class="fa fa-file-text padding-small"></i>
+                                TalkingData Mobile User Demographics - Part 2
+                            </a>
+                        </li>
+                    <li>
+                        <a href="/archives.html">
+                            <i class="fa fa-arrow-right padding-small"></i>
+                            More
+                        </a>
+                    </li>
+                    </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-social">
+                        <i class="fa fa-users padding-small"></i>
+                        Contact
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="mailto:huddar.vinay@gmail.com" title="EMAIL">
+                            <i class="fa fa-envelope-square fa-lg padding-small"></i>
+                            EMAIL
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/VinayHuddar" title="GitHub">
+                            <i class="fa fa-github-square fa-lg padding-small"></i>
+                            GitHub
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/vinay-huddar" title="LinkedIn">
+                            <i class="fa fa-linkedin-square fa-lg padding-small"></i>
+                            LinkedIn
+                        </a>
+                    </li>
+                </ul></li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-pages">
+                        <i class="fa fa-folder-open padding-small"></i>
+                        Pages
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-pages" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="/pages/about.html">
+                            <i class="fa fa-file-text padding-small"></i>
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/my-data-science-lab.html">
+                            <i class="fa fa-file-text padding-small"></i>
+                            My Data Science Lab
+                        </a>
+                    </li>
+                </ul></li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-categories">
+                        <i class="fa fa-folder-open padding-small"></i>
+                        Categories
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-categories" class="sidebar_submenu collapse ">
+                    <li class="active">
+                        <a href="/category/data-science-process.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Data Science Process
+                            <span class="badge pull-right categorybadge">2</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/category/kaggle-series.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Kaggle Series
+                            <span class="badge pull-right categorybadge">4</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/category/playground.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Playground
+                            <span class="badge pull-right categorybadge">1</span>
+                        </a>
+                    </li>
+                </ul></li>
+                
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- open/close sidebar -->
+        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+            <span id="right-arrow" class="glyphicon glyphicon-chevron-right"  title="expand sidebar"></span>
+            <span id="left-arrow" class="glyphicon glyphicon-chevron-left" title="minimize sidebar"></span>
+        </a>
+       <!-- /open/close sidebar -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+<section id="content">
+    <article>
+        <div class="row">
+            <div class="col-lg-9">
+                <header class="page-header">
+                    <h1>
+                        <a href="/2016/09/19/the-data-science-process-illustrated-part-2/"
+                           rel="bookmark"
+                           title="Permalink to The Data Science Process Illustrated - Part 2">
+                            The Data Science Process Illustrated - Part 2
+                        </a>
+                        <small>
+<div class="post-info">
+    <div class="publish-info-block">
+        <small>
+            <span class="published">
+                <i class="fa fa-calendar padding-small"></i><time datetime="2016-09-19T16:30:00+05:30"> Mon 19 September 2016</time>
+            </span>
+            <span class="category">
+                <i class="fa fa-folder-open padding-small"></i><a href="/category/data-science-process.html">Data Science Process</a>
+            </span>
+            <span class="tags">
+                <i class="fa fa-tags padding-small"></i>
+                <a href="/tag/notebook.html">Notebook</a> /                 <a href="/tag/datascience.html">DataScience</a> /                 <a href="/tag/eda.html">EDA</a> /                 <a href="/tag/sparse.html">Sparse</a> /                 <a href="/tag/logisticregression.html">LogisticRegression</a> /                 <a href="/tag/xgboost.html">XGBoost</a> /                 <a href="/tag/gbm.html">GBM</a> /                 <a href="/tag/pandas.html">Pandas</a> /                 <a href="/tag/python.html">Python</a> /                 <a href="/tag/scikit-learn.html">scikit-learn</a> /                 <a href="/tag/categorical.html">Categorical</a> /                 <a href="/tag/onehotencoding.html">OneHotEncoding</a>            </span>
+        </small>
+    </div>
+</div><!-- /.post-info -->                        </small>
+                    </h1>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="entry-content">
+                    <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/.ansibold{font-weight:700}.ansiblack{}.ansired{color:#8b0000}.ansigreen{6400}.ansiyellow{color:#c4a000}.ansiblue{8b}.ansipurple{color:#9400d3}.ansicyan{color:#4682b4}.ansigray{color:gray}.ansibgblack{background-}.ansibgred{background-color:red}.ansibggreen{background-color:green}.ansibgyellow{background-color:#ff0}.ansibgblue{background-f}.ansibgpurple{background-color:#ff00ff}.ansibgcyan{background-ff}.ansibggray{background-color:gray}div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;border-radius:2px;box-sizing:border-box;-moz-box-sizing:border-box;border-width:thin;border-style:solid;width:100%;padding:5px;margin:0;outline:0}div.cell.selected{border-color:#ababab}@media print{div.cell.selected{border-color:transparent}}.edit_mode div.cell.selected{border-color:green}.prompt{min-width:14ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}@-moz-document url-prefix(){div.inner_cell{overflow-x:hidden}}div.input_area{border:1px solid #cfcfcf;border-radius:2px;background:#f7f7f7;line-height:1.21429em}div.prompt:empty{padding-top:0;padding-bottom:0}div.unrecognized_cell{padding:5px 5px 5px 0;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.unrecognized_cell .inner_cell{border-radius:2px;padding:5px;font-weight:700;color:red;border:1px solid #cfcfcf;background:#eaeaea}div.unrecognized_cell .inner_cell a,div.unrecognized_cell .inner_cell a:hover{color:inherit;text-decoration:none}@media (max-width:540px){.prompt{text-align:left}div.unrecognized_cell>div.prompt{display:none}}div.code_cell{}div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.input{-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.input_prompt{color:navy;border-top:1px solid transparent}div.input_area>div.highlight{margin:.4em;border:none;padding:0;background-color:transparent}div.input_area>div.highlight>pre{margin:0;border:none;padding:0;background-color:transparent}.CodeMirror{line-height:1.21429em;font-size:14px;height:auto;background:0 0}.CodeMirror-scroll{overflow-y:hidden;overflow-x:auto}.CodeMirror-lines{padding:.4em}.CodeMirror-linenumber{padding:0 8px 0 4px}.CodeMirror-gutters{border-bottom-left-radius:2px;border-top-left-radius:2px}.CodeMirror pre{padding:0;border:0;border-radius:0}.highlight-base,.highlight-variable{}.highlight-variable-2{color:#1a1a1a}.highlight-variable-3{color:#333}.highlight-string{color:#BA2121}.highlight-comment{color:#408080;font-style:italic}.highlight-number{80}.highlight-atom{color:#88F}.highlight-keyword{color:green;font-weight:700}.highlight-builtin{color:green}.highlight-error{color:red}.highlight-operator{color:#A2F;font-weight:700}.highlight-meta{color:#A2F}.highlight-def{f}.highlight-string-2{color:#f50}.highlight-qualifier{color:#555}.highlight-bracket{color:#997}.highlight-tag{color:#170}.highlight-attribute{c}.highlight-header{f}.highlight-quote{90}.highlight-link{c}.cm-s-ipython span.cm-keyword{color:green;font-weight:700}.cm-s-ipython span.cm-atom{color:#88F}.cm-s-ipython span.cm-number{80}.cm-s-ipython span.cm-def{f}.cm-s-ipython span.cm-variable{}.cm-s-ipython span.cm-operator{color:#A2F;font-weight:700}.cm-s-ipython span.cm-variable-2{color:#1a1a1a}.cm-s-ipython span.cm-variable-3{color:#333}.cm-s-ipython span.cm-comment{color:#408080;font-style:italic}.cm-s-ipython span.cm-string{color:#BA2121}.cm-s-ipython span.cm-string-2{color:#f50}.cm-s-ipython span.cm-meta{color:#A2F}.cm-s-ipython span.cm-qualifier{color:#555}.cm-s-ipython span.cm-builtin{color:green}.cm-s-ipython span.cm-bracket{color:#997}.cm-s-ipython span.cm-tag{color:#170}.cm-s-ipython span.cm-attribute{c}.cm-s-ipython span.cm-header{f}.cm-s-ipython span.cm-quote{90}.cm-s-ipython span.cm-link{c}.cm-s-ipython span.cm-error{color:red}.cm-s-ipython span.cm-tab{background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=')right no-repeat}div.output_wrapper{display:-webkit-box;-webkit-box-align:stretch;display:-moz-box;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;z-index:1}div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:2px;-webkit-box-shadow:inset 0 2px 8px rgba(0,0,0,.8);box-shadow:inset 0 2px 8px rgba(0,0,0,.8);display:block}div.output_collapsed{margin:0;padding:0;display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.out_prompt_overlay{height:100%;padding:0 .4em;position:absolute;border-radius:2px}div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000;box-shadow:inset 0 0 1px #000;background:rgba(240,240,240,.5)}div.output_prompt{color:#8b0000}div.output_area{padding:0;page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.output_area .MathJax_Display{text-align:left!important}div.output_area div.output_area img,div.output_area svg{max-width:100%;height:auto}div.output_area img.unconfined,div.output_area svg.unconfined{max-width:none}.output{display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}@media (max-width:540px){div.output_area{-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.output_area pre{margin:0;padding:0;border:0;vertical-align:baseline;background-color:transparent;border-radius:0}div.output_subarea{overflow-x:auto;padding:.4em;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1;max-width:calc(100% - 14ex)}div.output_text{text-align:left;line-height:1.21429em}div.output_stderr{background:#fdd}div.output_latex{text-align:left}div.output_javascript:empty{padding:0}.js-error{color:#8b0000}div.raw_input_container{font-family:monospace;padding-top:5px}span.raw_input_prompt{}input.raw_input{font-family:inherit;font-size:inherit;color:inherit;width:auto;vertical-align:baseline;padding:0 .25em;margin:0 .25em}input.raw_input:focus{box-shadow:none}p.p-space{margin-bottom:10px}div.output_unrecognized{padding:5px;font-weight:700;color:red}div.output_unrecognized a,div.output_unrecognized a:hover{color:inherit;text-decoration:none}.rendered_html{}.rendered_html :link,.rendered_html :visited,.rendered_html h1:first-child{margin-top:.538em}.rendered_html h2:first-child{margin-top:.636em}.rendered_html h3:first-child{margin-top:.777em}.rendered_html h4:first-child,.rendered_html h5:first-child,.rendered_html h6:first-child{margin-top:1em}.rendered_html *+ol,.rendered_html *+ul{margin-top:1em}.rendered_html *+table{margin-top:1em}.rendered_html *+p{margin-top:1em}.rendered_html *+img{margin-top:1em}div.text_cell{display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.text_cell>div.prompt{display:none}}div.text_cell_render{outline:0;resize:none;width:inherit;border-style:none;padding:.5em .5em .5em .4em;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}a.anchor-link:link{text-decoration:none;padding:0 20px;visibility:hidden}h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible}.text_cell.rendered .input_area{display:none}.text_cell.rendered .text_cell.unrendered .text_cell_render{display:none}.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6{font-weight:700;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.cm-header-1{font-size:185.7%}.cm-header-2{font-size:157.1%}.cm-header-3{font-size:128.6%}.cm-header-4{font-size:110%}.cm-header-5,.cm-header-6{font-size:100%;font-style:italic}</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the <a href="/2016/09/19/the-data-science-process-illustrated-part-1/">first part</a> of this series I briefly described my prespective of the Data Science Process and illustrated it with a case study from <a href="https://www.kaggle.com/c/predicting-red-hat-business-value">Kaggle's 'Predicting RedHat Business Value' competition</a>. Since the post was getting too long and I didn't want many TL;DRs, I stopped after the <strong>"Exploratory Data Analysis" (EDA)</strong> stage with a promise to complete it in this post. So, here we are. Let's continue with case study and develop it through the remaining stages of the Data Science Process:</p>
+<ol>
+<li>Machine Learning / Statistical Modeling</li>
+<li>Visualising / Reporting  </li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img class="img-responsive" src="/images/model-building.png"/></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is the stage where <strong>"Learning happens"</strong>. Machine Learning Algorithms and/or Statistical Modeling Techniques are used to find patterns in data and predict the outcome. Machine Learning and Statistical Modeling is used interchangeably in this post, although there are some differences between the two. Statistical Modeling Techniques are used to formulate relationships between variables. They deal with mathematical equations. Machine Learning Algorithms on the other hand are not as much concerned about mathematical formulations as they are with relating observations to outcomes irrespective of the complexity of the relationship.</p>
+<p>Before we can start talking about algorithms/models  and thier parameters we need to do some ground work. Although the data was preprocessed and analysed in the earlier stages it is still not completely ready for modeling. The first thing we need to do is to get all the data into a single place. For our case study this means joining the People and Activity tables.</p>
+<p>We will read the preprocessed data into memory using Pandas read_csv() function as we did at the beginning of the preprocessing stage.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [32]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span> 
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span> 
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span><span class="p">,</span> <span class="n">hstack</span>
+
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="kn">as</span> <span class="nn">xgb</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [33]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Get Preprocessed Activity and People Data into memory</span>
+<span class="n">act_train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../processed_data/activity_table.csv'</span><span class="p">,</span><span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s">'date_act'</span><span class="p">])</span>
+<span class="n">people_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../processed_data/people_table.csv'</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s">'date_ppl'</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's get the test data also into memory and preprocess it.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [34]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">act_test_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../input/act_test.csv'</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s">'date'</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [36]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">preprocess_act</span><span class="p">(</span><span class="n">act_df</span><span class="p">):</span>
+    <span class="c"># Impute missing data</span>
+    <span class="n">act_df</span> <span class="o">=</span> <span class="n">act_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">'type 0'</span><span class="p">)</span>
+    
+    <span class="c"># Convert categorical string type columns to their integer equivalents</span>
+    <span class="n">cat_cols</span> <span class="o">=</span> <span class="n">act_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="s">'people_id'</span><span class="p">,</span> <span class="s">'activity_id'</span><span class="p">,</span> <span class="s">'outcome'</span><span class="p">,</span> <span class="s">'date'</span><span class="p">])</span>
+    <span class="n">act_df</span><span class="p">[</span><span class="n">cat_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">act_df</span><span class="p">[</span><span class="n">cat_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    
+    <span class="c"># Process activity_id - split id into category of activity (act1 / act2) and id number</span>
+    <span class="n">act_id_parts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span>
+        <span class="n">act_df</span><span class="p">[</span><span class="s">'activity_id'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">'_'</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
+        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'act_cat'</span><span class="p">,</span> <span class="s">'act_id'</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">act_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">act_id_parts</span><span class="p">[</span><span class="s">'act_cat'</span><span class="p">]</span> <span class="o">=</span> <span class="n">act_id_parts</span><span class="p">[</span><span class="s">'act_cat'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s">'act1'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'act2'</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+    <span class="n">act_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">act_df</span><span class="p">,</span> <span class="n">act_id_parts</span><span class="p">[</span><span class="s">'act_cat'</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Let's append '_act' to char_# &amp; date cols to differentiate them from People 'char's</span>
+    <span class="n">char_old_name_new_name_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+        <span class="n">char_old_name_new_name_map</span><span class="p">[</span><span class="s">'char_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="s">'char_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">'_act'</span>
+    <span class="n">act_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">char_old_name_new_name_map</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">act_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="s">'date_act'</span><span class="p">},</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+    <span class="c"># Convert all columns except activity_id, people_id and char_10 to np.int8 type.</span>
+    <span class="n">cast_cols</span> <span class="o">=</span> <span class="n">act_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="s">'activity_id'</span><span class="p">,</span> <span class="s">'people_id'</span><span class="p">,</span> <span class="s">'date_act'</span><span class="p">,</span> <span class="s">'char_10_act'</span><span class="p">])</span>
+    <span class="n">act_df</span><span class="p">[</span><span class="n">cast_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">act_df</span><span class="p">[</span><span class="n">cast_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">))</span>
+    <span class="c"># Convert char_10 to np.int16 type</span>
+    <span class="n">act_df</span><span class="p">[</span><span class="s">'char_10_act'</span><span class="p">]</span> <span class="o">=</span> <span class="n">act_df</span><span class="p">[</span><span class="s">'char_10_act'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">act_df</span>
+    
+<span class="c"># Preprocess test dataset</span>
+<span class="n">act_test_df</span> <span class="o">=</span> <span class="n">preprocess_act</span><span class="p">(</span><span class="n">act_test_df</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Shape of act_test table: </span><span class="si">%s</span><span class="se">\n</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">act_test_df</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'First five rows and seven columns of act_test...'</span><span class="p">)</span>
+<span class="n">act_test_df</span><span class="p">[</span><span class="n">act_test_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="mi">7</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Shape of act_test table: (498687, 15)
+
+First five rows and seven columns of act_test...
+</pre>
+</div>
+</div>
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="table table-hover table-striped dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>people_id</th>
+<th>activity_id</th>
+<th>date_act</th>
+<th>activity_category</th>
+<th>char_1_act</th>
+<th>char_2_act</th>
+<th>char_3_act</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>ppl_100004</td>
+<td>act1_249281</td>
+<td>2022-07-20</td>
+<td>1</td>
+<td>5</td>
+<td>10</td>
+<td>5</td>
+</tr>
+<tr>
+<th>1</th>
+<td>ppl_100004</td>
+<td>act2_230855</td>
+<td>2022-07-20</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>ppl_10001</td>
+<td>act1_240724</td>
+<td>2022-10-14</td>
+<td>1</td>
+<td>12</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<th>3</th>
+<td>ppl_10001</td>
+<td>act1_83552</td>
+<td>2022-11-27</td>
+<td>1</td>
+<td>20</td>
+<td>10</td>
+<td>5</td>
+</tr>
+<tr>
+<th>4</th>
+<td>ppl_10001</td>
+<td>act2_1043301</td>
+<td>2022-10-15</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Encoding-categorical-features">Encoding categorical features<a class="anchor-link" href="#Encoding-categorical-features">¶</a></h3><p>Most of the features in the dataset are categorical. Activity category and all activity characteristics are categorical. group_1 and char_2 to char_9 in People table are categorical. The rest of the characteristic features in People table are boolean. <strong>All categoricals have to be one-hot-encoded</strong> before we can use them training.</p>
+<p>Before we do one hot encoding let's create some features from date columns. We get three features by splitting date into year, month and day. We will also add day-of-the-week. So, we get 4 features for the activity's date column and 4 features for people's date column, a total of 8 new features.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># extract year, month, day of month and day of week from date</span>
+<span class="k">def</span> <span class="nf">create_date_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">append_str</span><span class="p">):</span>
+    <span class="n">date_col_name</span> <span class="o">=</span> <span class="s">'date'</span> <span class="o">+</span> <span class="n">append_str</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">'year'</span> <span class="o">+</span> <span class="n">append_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">date_col_name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">'month'</span> <span class="o">+</span> <span class="n">append_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">date_col_name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">month</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">'day'</span> <span class="o">+</span> <span class="n">append_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">date_col_name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">'day_week'</span> <span class="o">+</span> <span class="n">append_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">date_col_name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">dayofweek</span><span class="p">)</span>
+    
+    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">date_col_name</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">act_train_df</span> <span class="o">=</span> <span class="n">create_date_features</span><span class="p">(</span><span class="n">act_train_df</span><span class="p">,</span> <span class="s">'_act'</span><span class="p">)</span>
+<span class="n">act_test_df</span> <span class="o">=</span> <span class="n">create_date_features</span><span class="p">(</span><span class="n">act_test_df</span><span class="p">,</span> <span class="s">'_act'</span><span class="p">)</span>
+<span class="n">people_df</span> <span class="o">=</span> <span class="n">create_date_features</span><span class="p">(</span><span class="n">people_df</span><span class="p">,</span> <span class="s">'_ppl'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Shape of act_train after adding date features: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">act_train_df</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape of act_test after adding date features: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">act_test_df</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape of People after adding date features: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">people_df</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Shape of act_train after adding date features: (2197291, 19)
+Shape of act_test after adding date features: (498687, 18)
+Shape of People after adding date features: (189118, 44)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One Hot Encoding results in sparse matrices, the size of which determines the training time. The number of new columns added is directly proportional to the distinct number of values in each feature being encoded. So, any opportunity of reducing the number of distinct values in one or more features without affecting the accuracy of the predictions should be utilized. This will result in faster training time.</p>
+<p>We have such an opportunity in group_1. Of the 34K distinct values more than 20K are occur only once, which means these groups have only one member in them. Let's assume that the number of activities performed by one-person groups is insignificant compared to other groups and can be safely discarded without major impact on prediction accuarcy. Post training and scoring if we see a good score our assumption will be true. If the score is bad or if we want to check whether adding one-person groups also into the mix increases teh score we can them and retrain the model, which will take much longer than the previous training due the increase in feature count.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Trim group_1 - drop all single-occurance groups from people table</span>
+<span class="c"># this reduces the group count from 34k to 13.8k</span>
+<span class="n">grp_cnts</span> <span class="o">=</span> <span class="n">people_df</span><span class="o">.</span><span class="n">group_ppl</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">one_person_grps</span> <span class="o">=</span> <span class="n">grp_cnts</span><span class="p">[</span><span class="n">grp_cnts</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">one_person_grps_lbl</span> <span class="o">=</span> <span class="n">people_df</span><span class="p">[</span><span class="n">people_df</span><span class="o">.</span><span class="n">group_ppl</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">one_person_grps</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">people_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">one_person_grps_lbl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Number of groups before trimming: </span><span class="si">%d</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">grp_cnts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Number of groups after trimming: </span><span class="si">%d</span><span class="s">'</span><span class="o">%</span><span class="p">(</span><span class="n">people_df</span><span class="o">.</span><span class="n">group_ppl</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Number of groups before trimming: 34224
+Number of groups after trimming: 13807
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It's now time to stack the train and test sets, and then, merge it with people. We will use this stacked and merged entity for further processing.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Create a marker that differentiates train samples from test samples. This will be useful later.</span>
+<span class="n">act_train_df</span><span class="p">[</span><span class="s">'is_train'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">act_test_df</span><span class="p">[</span><span class="s">'is_train'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="n">act_whole_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">act_train_df</span><span class="p">,</span> <span class="n">act_test_df</span><span class="p">])</span>
+<span class="n">whole_dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">act_whole_df</span><span class="p">,</span> <span class="n">people_df</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s">'left'</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s">'people_id'</span><span class="p">)</span>
+<span class="n">whole_dataset</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="c"># Release memory that is no longer needed</span>
+<span class="k">del</span> <span class="n">act_train_df</span>
+<span class="k">del</span> <span class="n">act_test_df</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Shape of the merged entity: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">whole_dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Shape of the merged entity: (2695978, 63)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="One-Hot-Encoding">One Hot Encoding<a class="anchor-link" href="#One-Hot-Encoding">¶</a></h3><p>Now we are ready for one-hot encoding. We will one-hot encode each feature and create a sparse matrix for each. We will then horizontally stack them with non-categorical features to create the final feature matrix that we can train the model on.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Get the list of features and segregate categorical and non-categorical features</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">whole_dataset</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">exclude</span> <span class="o">=</span> <span class="p">[</span><span class="s">'object'</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+    <span class="p">[</span><span class="s">'char_10_act'</span><span class="p">,</span> <span class="s">'is_train'</span><span class="p">,</span> <span class="s">'outcome'</span><span class="p">])</span>
+<span class="n">cat_feats</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="s">'char_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">38</span><span class="p">)]</span> <span class="o">+</span> 
+                                <span class="p">[</span><span class="s">'act_cat'</span><span class="p">,</span> <span class="s">'char_10_ppl'</span><span class="p">])</span> <span class="c"># Keep out boolean features</span>
+<span class="n">non_cat_feats</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">cat_feats</span><span class="p">)</span>
+
+<span class="c"># Encode categoricals</span>
+<span class="n">enc</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">whole_dataset</span><span class="p">[</span><span class="n">cat_feats</span><span class="p">]</span> <span class="o">=</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">cat_feats</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">enc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c"># Train and test samples have to be encoded separately since it would be difficult to </span>
+<span class="c"># separate them from the encoded and sparsified whole_dataset later</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">whole_dataset</span><span class="o">.</span><span class="n">is_train</span> <span class="o">==</span> <span class="bp">True</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">whole_dataset</span><span class="o">.</span><span class="n">is_train</span> <span class="o">==</span> <span class="bp">False</span><span class="p">]</span>
+
+<span class="c"># Build and stack CSR matrices</span>
+<span class="k">def</span> <span class="nf">build_csr</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">num_smpls</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">row_nums</span><span class="p">,</span> <span class="n">csr_data_col</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_smpls</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_smpls</span><span class="p">)</span>
+
+    <span class="n">csr_mats</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">csr_data_col</span><span class="p">,</span> <span class="p">(</span><span class="n">row_nums</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">cat_feats</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span> 
+                         <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_smpls</span><span class="p">,</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">cat_feats</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cat_feats</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">csr</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">csr_data_col</span><span class="p">,</span> <span class="p">(</span><span class="n">row_nums</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span> 
+                         <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_smpls</span><span class="p">,</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">csr_mats</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">([</span><span class="n">csr_mats</span><span class="p">,</span> <span class="n">csr</span><span class="p">],</span> <span class="n">format</span> <span class="o">=</span> <span class="s">'csr'</span><span class="p">)</span>        
+    <span class="k">return</span> <span class="n">csr_mats</span>
+
+<span class="c"># Create train and test feature matrices</span>
+<span class="n">X_train_sparse</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">((</span><span class="n">X_train</span><span class="p">[</span><span class="n">non_cat_feats</span><span class="p">],</span> <span class="n">build_csr</span><span class="p">(</span><span class="n">X_train</span><span class="p">)))</span>
+<span class="n">X_test_sparse</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">((</span><span class="n">X_test</span><span class="p">[</span><span class="n">non_cat_feats</span><span class="p">],</span> <span class="n">build_csr</span><span class="p">(</span><span class="n">X_test</span><span class="p">)))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Shape of one-Hot-Encoded training data: {0}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X_train_sparse</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape of one-Hot-Encoded test data: {0}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X_test_sparse</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Shape of one-Hot-Encoded training data: (2197291, 14388)
+Shape of one-Hot-Encoded test data: (498687, 14388)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>2.7 million sample and 14.4K features. That's a large amount of data; our machine has some work to do.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Let's-do-some-ML!">Let's do some ML!<a class="anchor-link" href="#Let's-do-some-ML!">¶</a></h3><p>We will begin with a simple algorithm that is suitable for the problem at hand. We are dealing with a <strong>Binary Classification</strong> problem, since the outcome can take only one of two values: either a 0 or a 1. <strong>Logistic Regression</strong> is the standard algorithm used for this kind of problem. So, let's begin with it and see how far we can get with this algorithm.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will train a LogisticRegression model (from sklearn's linear_model module) with the default parameter values and see how that fares. The only parameter that we explicitly set is the random_state parameter. This is required to make sure every time we train this model the Random Number Generator used internally by the algorithm returns the same set of values. This is required when we compare outcomes of multiple model prediction runs.</p>
+<p>We will use a <strong>hold-out set Cross Validation method</strong>. We will use <strong>sklearn's train_test_split</strong> function from its cross_validation module.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [25]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Let's split the dataset into train and test sets</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">whole_dataset</span><span class="o">.</span><span class="n">is_train</span> <span class="o">==</span> <span class="bp">True</span><span class="p">]</span><span class="o">.</span><span class="n">outcome</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_train_sparse</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span> 
+                                                    <span class="n">random_state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># Train a LogisticRegression model</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">model_lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Training time: </span><span class="si">%d</span><span class="s">m:</span><span class="si">%d</span><span class="s">s"</span> <span class="o">%</span> <span class="p">((</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">,</span> <span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Training time: 11m:19s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have trained our first model. Let's see how it fares on the validation set. We will use <strong>AUC (Area Under Curve)</strong> evaluation metric. Again, sklearn has a function defined for this in its 'metrics' module called <strong>roc_auc_score</strong>. Let's use that.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">auc_1</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"AUC Score: </span><span class="si">%.4f</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">auc_1</span><span class="p">,</span> <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>AUC Score: 0.9277
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Cool. Not a bad score at all for the first try.</p>
+<p>Every model has a set of parameters that need to be tuned to achieve the best perfromance on the data at hand. This activity is called <strong>Parameter tuning</strong>. For LogisticRegression the parameter to tune is the <strong>regularization value</strong>. We have to find the regularization value that gives us the best score.</p>
+<p>Parameter values are usually picked from the logarithmic space. The numpy function <strong>np.logspace</strong> comes in handy here. We will train the model on five different values of regularization value - 0.001, 0.01, 0.1, 0.0, 1.0. We will then plot the auc score and pick the regularization value that shows the best score.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">reg_val</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">reg_val</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    
+    <span class="n">y_preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_preds</span><span class="p">)</span>
+
+<span class="n">reg_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">auc_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">best_auc</span><span class="p">,</span> <span class="n">best_model</span> <span class="o">=</span> <span class="n">auc_1</span><span class="p">,</span> <span class="n">model_lr</span>
+
+<span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">reg_vals</span><span class="p">:</span>
+    <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">auc</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">reg</span><span class="p">)</span>
+    <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Model for C=</span><span class="si">%.3f</span><span class="s"> trained in </span><span class="si">%d</span><span class="s">m:</span><span class="si">%d</span><span class="s">s time, AUC Score = </span><span class="si">%.04f</span><span class="s">"</span> <span class="o">%</span> 
+          <span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">,</span> <span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span><span class="p">,</span> <span class="n">auc</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">auc</span> <span class="o">&gt;</span> <span class="n">best_auc</span><span class="p">:</span>
+        <span class="n">best_auc</span> <span class="o">=</span> <span class="n">auc</span>
+        <span class="n">best_model</span> <span class="o">=</span> <span class="n">model</span>
+    
+    <span class="n">auc_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">auc</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">auc_list</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">reg_vals</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Regularization Value'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'AUC Score'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Regularization Value Vs AUC Plot'</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_png output_subarea ">
+<img class="img-responsive" src="data:image/png;base64,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
+YII=
+">
+</img></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let us use 1.0 as the regularization value since it is faster to train and is very close to the best model score, which was with a regularization value of 10. We will now train the model on the entire training set, including the samples that we had held out for cross-validation and predict the outcomes for the test set - the data on which Kaggle computes the Public and Private Leader Board Scores.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [26]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_sparse</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">y_preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_sparse</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span> <span class="s">'activity_id'</span> <span class="p">:</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">whole_dataset</span><span class="o">.</span><span class="n">is_train</span> <span class="o">==</span> <span class="bp">False</span><span class="p">][</span><span class="s">'activity_id'</span><span class="p">],</span> <span class="s">'outcome'</span><span class="p">:</span> <span class="n">y_preds</span> <span class="p">})</span>
+<span class="n">output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'log_regr_lr_1.csv'</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>The score on the testset was 0.91174.</strong> Not bad. This shows that the model is generalized enough to predict the right outcomes on unseen data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Non-Linear-Methods">Non-Linear Methods<a class="anchor-link" href="#Non-Linear-Methods">¶</a></h3><p>LogisticRegression is a <strong>linear model</strong>. Non-linear relationships between features and outcome cannot be captured with this algorithm. <strong>Non-linear algorithms like Random-Forest, Gradient Boosting Machine (GBM) and Neural Networks</strong> usually do a much better job of finding the intricate patterns hidden in data, and hence, end up performing much better than linear algorithms.</p>
+<p>It will be nice to see how two of the most widely used non-linear methods, GBM and Neural Networks, perform on our dataset. We will first fit a GBM model on the training data, get the predictions on the test data, submit them to Kaggle and check how it scores. We will then do the same with Neural Networks.</p>
+<p>The purpose is to compare the performance of non-linear models with Logistic Regression, and not fit the best GBM/Neural-Network models, i.e. we  will not do parameter tuning. Instead I will train a single model for each non-linear method and pick the parameters for them based on what has worked for me before.</p>
+<p>Let's start with <strong>Gradient Boosting Machine (GBM)</strong>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gradient-Boosting-with-XGBoost">Gradient Boosting with XGBoost<a class="anchor-link" href="#Gradient-Boosting-with-XGBoost">¶</a></h3><p>GBM is a tree-based ensembling method, i.e. it combines the predictions of multiple Decision Trees in such a way that the performance of the ensemble is better than the individual trees that make the ensemble. <strong>Random Forest</strong> is another type of tree-based ensembling method that is similar to GBM but not as effective. GBM learns from mistakes as it goes about building the ensemble one tree at a time. Random Forest doesn't. I don't want to talk more about these methods here since there is tons of material on these algorithms out there.</p>
+<p>We will use <strong>XGBoost</strong> implementation of GBM. XGBoost is a fast and scalable GBM library. It supports distributed processing in the cloud. It is the best in business today and is a popular choice among Kagglers. Like other algorithms it has parameters that must to tuned. Maximum depth of the trees and number of trees are two of the important parameters. However, we will not search the parameter space for this model in the interest of keeping the post from getting too big. I will pick parameter values based on my experience.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">dtrain</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">X_train_sparse</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">dtest</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">X_test_sparse</span><span class="p">)</span>
+
+<span class="n">param</span> <span class="o">=</span> <span class="p">{</span><span class="s">'max_depth'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">'eta'</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span> <span class="s">'silent'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'objective'</span><span class="p">:</span> <span class="s">'binary:logistic'</span><span class="p">,</span> 
+         <span class="s">'nthread'</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">'eval_metric'</span><span class="p">:</span> <span class="s">'auc'</span><span class="p">,</span> <span class="s">'subsample'</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span> <span class="s">'colsample_bytree'</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span> 
+         <span class="s">'min_child_weight'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'booster'</span><span class="p">:</span> <span class="s">"gblinear"</span><span class="p">}</span>
+
+<span class="n">watchlist</span>  <span class="o">=</span> <span class="p">[(</span><span class="n">dtrain</span><span class="p">,</span><span class="s">'train'</span><span class="p">)]</span>
+<span class="n">num_round</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">dtrain</span><span class="p">,</span> <span class="n">num_round</span><span class="p">,</span> <span class="n">watchlist</span><span class="p">,</span> <span class="n">early_stopping_rounds</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">ypred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dtest</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span> <span class="s">'activity_id'</span> <span class="p">:</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">whole_dataset</span><span class="o">.</span><span class="n">is_train</span> <span class="o">==</span> <span class="bp">False</span><span class="p">][</span><span class="s">'activity_id'</span><span class="p">],</span> <span class="s">'outcome'</span><span class="p">:</span> <span class="n">ypred</span> <span class="p">})</span>
+<span class="n">output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'xgboost_preds.csv'</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong> This model scored 0.97944, a 0.083 improvement over the LogisticRegression model.</strong></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Neural-Network-using-Keras-+-Tensorflow">Neural Network using Keras + Tensorflow<a class="anchor-link" href="#Neural-Network-using-Keras-+-Tensorflow">¶</a></h3><p>Like XGBoost, a neural network can learn complex non-linear relationships between the predictors and the labels. It is a highly versatile method that has been used in a wide range of domains.</p>
+<p>A type of neural networks called <strong>Convolutional Neural Networks (CNNs)</strong> are used in visual recognition applications, like image classification/labeling, video analysis etc. I plan to write a post on CNN based on my experience of implementing excercise problems of Stanford University's Course, called CS231n: Convolutional Neural Networks for Visual Recognition. Watch out for the post.</p>
+<p><strong>Recurrent Neural Network (RNN)</strong> is a second type of neural network. It has been very successfully used in Natural Language Processing (NLP) applications like Sentiment Analysis, Information Retrieval and Language Translation. CNNs, however, have also been used in NLP to some extent. So, there's no clear boundary of applicability of these methods to application domains.</p>
+<p>CNNs and RNNs may not be very suitable for our case study. A fully connected single layer network network should be good enough for our application. We will use <strong>Keras python library with TensorFlow backend</strong> for building and training the network.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span><span class="p">,</span> <span class="n">load_model</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="kn">import</span> <span class="n">ModelCheckpoint</span>
+
+<span class="c"># Create Neural Net</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">input_dim</span> <span class="o">=</span> <span class="n">X_train_sparse</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">init</span> <span class="o">=</span> <span class="s">'uniform'</span><span class="p">,</span> 
+                <span class="n">activation</span> <span class="o">=</span> <span class="s">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s">'uniform'</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'sigmoid'</span><span class="p">))</span>
+
+<span class="c"># Compile the model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span> <span class="o">=</span> <span class="s">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s">'adam'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">])</span>
+
+<span class="c"># Train the model</span>
+<span class="n">checkpointer</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="s">'./kerasNNModel_100interm.hdf5'</span><span class="p">)</span>
+<span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">num_chunks</span> <span class="o">=</span> <span class="n">input_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">chunk_size</span>
+<span class="n">cum_time</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_chunks</span><span class="p">):</span>
+    <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="n">chunk</span> <span class="o">*</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="p">(</span><span class="n">chunk</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chunk_size</span>
+    <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_samples</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">labels</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">],</span>
+              <span class="n">nb_epoch</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="n">checkpointer</span><span class="p">])</span>
+    <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">cum_time</span> <span class="o">+=</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Trained chunk {0}/{1} in {2}mins : {3}secs'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">num_chunks</span><span class="p">,</span> 
+                                                              <span class="nb">int</span><span class="p">(</span><span class="n">cum_time</span> <span class="o">/</span> <span class="mi">60</span><span class="p">),</span> 
+                                                              <span class="nb">int</span><span class="p">(</span><span class="n">cum_time</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)))</span>
+
+<span class="c"># Train the model on the remaining samples</span>
+<span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="n">num_chunks</span> <span class="o">*</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">input_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_samples</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">labels</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">],</span>
+          <span class="n">nb_epoch</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpointer</span><span class="p">])</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">cum_time</span> <span class="o">+=</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Trained chunk {0}/{1} in {2}mins : {3}secs'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_chunks</span><span class="p">,</span> <span class="n">num_chunks</span><span class="p">,</span> 
+                                                          <span class="nb">int</span><span class="p">(</span><span class="n">cum_time</span> <span class="o">/</span> <span class="mi">60</span><span class="p">),</span> 
+                                                          <span class="nb">int</span><span class="p">(</span><span class="n">cum_time</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)))</span>
+
+<span class="c"># Make predictions</span>
+<span class="n">y_preds</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">num_chunks</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">chunk_size</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_chunks</span><span class="p">):</span>
+    <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="n">chunk</span> <span class="o">*</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="p">(</span><span class="n">chunk</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chunk_size</span>
+    <span class="n">y_preds</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+<span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="n">num_chunks</span> <span class="o">*</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y_preds</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span> <span class="n">end_idx</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+
+<span class="c"># Create submission file</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'activity_id'</span><span class="p">:</span> <span class="n">whole_dataset</span><span class="p">[</span><span class="n">whole_dataset</span><span class="o">.</span><span class="n">is_train</span> <span class="o">==</span> <span class="bp">False</span><span class="p">][</span><span class="s">'activity_id'</span><span class="p">],</span> <span class="s">'outcome'</span><span class="p">:</span> <span class="n">y_preds</span><span class="p">})</span>
+<span class="n">output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'neural_net.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The code is comparitively bigger than the XGBoost model since Keras doesn't handle sparse data very well. Data has to be converted to arrays before it can be fed to the network. Converting 2.7 million records of 14388 features to an array would require tens of gigabytes of memory for holding it, which is not possible on a single machine. So, I had to train the network in small chunks (10000 records at a time). This additional logic increased the code size.</p>
+<p>Anyway, <strong>this model resulted in a score of 0.95153</strong> - better than LogisticRegression score but worse than XGBoost score. XGBoost seems to be a better fit for our problem.</p>
+<p><strong>Simplifying the network by removing the intermediate layer and connecting the input nodes directly to the output node surprisingly resulted in a better score - 0.9631</strong>. So, bigger is not always better. It is always good to try out multiple architectures and choose the best among them, rather than arbitrarily choosing the network structure.</p>
+<p>We have now observed first hand that non-linear models generally perform much better than linear models. We can try many more things to push the score further. I have listed some below.</p>
+<ul>
+<li>Tune model parameters, like the two I mentioned earlier and others like, learning_rate, subsample, colsample_bytree, colsample_bylevel, gamma, reg_gamma, reg_alpha</li>
+<li>Add more features (<strong>Feature Engineering</strong>)</li>
+<li>Try ensembling with a mix of different types of models</li>
+<li>Look for a leak, i.e. some direct relationship between one or more predictors and label that reveals the outcome.</li>
+</ul>
+<p>The last one isn't Data Science and doesn't add much value in real world. It does help in winning machine learning competitions, though. Infact, the competition on which this case study was based had a leak that resulted in a greater than 0.98 auc score by data analytics only, sans modeling.</p>
+<p>Since the focus of this post is the Data Science Process and not Machine Learning I will stop here and move to the next stage.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img class="img-responsive" src="/images/visualisation.png"/></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have come long way beginning from getting data from the Kaggle Server, preprocessing it, exploring it and learning from it. It is now time to <strong>report / communicate</strong> out findings. There is not much we as participants in a competition can do with respect to visualization, reporting and communication. The most we can do is tweet out scores and brag about it if we manage to get a good score, assuming our only intention was to get the best score in the competition.</p>
+<p>However, while everyone strives to perform well in the competition, the intentions vary. The intentions generally can be generally mapped to the 'level' of the players. Grandmasters, Masters and Experts mostly play to win. Contributors generally have a dual purpose of learning and winning. While Novices are mostly learning and feeling the water. There are, of course, exceptions. I have seen quite a few Novices beating the Grandmasters and winning competitions.</p>
+<p>I am a 'Competitions Contributor' in Kaggle. While I generally end up in the top 20%, my intention atleast as of the writing of this post is to learn Data Science. And share my learnings, like I am doing in this post.</p>
+<p>For the case study, summarizing the scores of the machine learning models that we built would qualify as a reporting / communication task. The following table lists all the models we tried, along with their configurations and their submission scores.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table class="table table-hover table-striped">
+<thead><tr>
+<th style="text-align:left">Model</th>
+<th style="text-align:left">Score</th>
+<th style="text-align:left">Configuration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">LogisticRegression</td>
+<td style="text-align:left">0.91174</td>
+<td style="text-align:left">Regularization Value - 1.0</td>
+</tr>
+<tr>
+<td style="text-align:left">GBM - XGBoost</td>
+<td style="text-align:left">0.97944</td>
+<td style="text-align:left">'max_depth': 10, 'eta': 0.02, 'silent': 1, 'objective': 'binary:logistic', 'nthread': -1, 'eval_metric': 'auc', 'subsample': 0.7, 'colsample_bytree': 0.7, 'min_child_weight': 0, 'booster': "gblinear"</td>
+</tr>
+<tr>
+<td style="text-align:left">Neural Networks - 1 layer</td>
+<td style="text-align:left">0.96310</td>
+<td style="text-align:left">Input Layer (143388 nodes) -&gt; Output layer (1 node, activation - 'Sigmoid'), loss = 'binary_crossentropy', optimizer = 'adam'</td>
+</tr>
+<tr>
+<td style="text-align:left">Neural Networks - 2 layer</td>
+<td style="text-align:left">0.95153</td>
+<td style="text-align:left">Input Layer (143388 nodes) -&gt; Intermediate Layer (100 nodes, activation = 'ReLU') -&gt; Output layer (1 node, activation = 'Sigmoid'), loss = 'binary_crossentropy', optimizer = 'adam'</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p>That brings us to the end of this post. I hope you found it interesting and/or helpful. If you liked the post you my "Kaggle Series" posts may also interest you. In the Kaggle Series I write about my solutions to the Kaggle Competitions that I participated in. I follow the same systematic staged approach that you saw in this post. Following are the links to these posts.</p>
+<ul>
+<li><a href="">Groupo Bimbo Inventory Demand</a></li>
+<li><a href="">TalkingData Mobile User Demographics</a></li>
+<li><a href="">Predicting RedHat Business Value</a></li>
+<li><a href="">Ultrasound Nerve Segmentation</a></li>
+</ul>
+<p>Thank you for reading this post. I hope to see you in my other posts. :)</p>
+</hr></div>
+</div>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+                </div>
+                <footer class="text-right">
+                    <p>- Vinay Huddar</p>
+                </footer>
+            </div>
+    <div id="scrollspy">
+        <div class="col-lg-3 nav nav-stacked hidden-xs hidden-sm" data-spy="affix" data-offset-top="135">
+            <div id="toc"><ul><li><a class="toc-href" href="#" title="The Data Science Process Illustrated - Part 2">The Data Science Process Illustrated - Part 2</a><ul><li><a class="toc-href" href="#Encoding-categorical-features" title="Encoding categorical features&para;">Encoding categorical features&para;</a></li><li><a class="toc-href" href="#One-Hot-Encoding" title="One Hot Encoding&para;">One Hot Encoding&para;</a></li><li><a class="toc-href" do="" href="#Let" ml!¶'="" s="" s-do-some-ml!'="" some="" title="Let">Let's do some ML!&para;</a></li><li><a class="toc-href" href="#Non-Linear-Methods" title="Non-Linear Methods&para;">Non-Linear Methods&para;</a></li><li><a class="toc-href" href="#Gradient-Boosting-with-XGBoost" title="Gradient Boosting with XGBoost&para;">Gradient Boosting with XGBoost&para;</a></li><li><a class="toc-href" href="#Neural-Network-using-Keras-+-Tensorflow" title="Neural Network using Keras + Tensorflow&para;">Neural Network using Keras + Tensorflow&para;</a></li></ul></li></ul></div>
+        </div>
+    </div>
+        </div>
+    </article>
+</section>
+<footer>
+    <hr>
+    <div class="row">
+        <div class="col-lg-9 text-center">
+            <p><small>
+                Built by <a href="http://docs.getpelican.com/en/latest">Pelican</a> / <a href="https://github.com/ingwinlu/pelican-twitchy">pelican-twitchy</a>
+                &middot;                    &copy; 2016 Vinay Huddar
+            </small></p>
+        </div>
+    </div>
+</footer>            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery Version 1.11.2 -->
+    <script src="/theme/js/jquery-1.11.2.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+    <!-- twitchy Script -->
+    <script src="/theme/js/pelican_twitchy.min.js"></script>
+
+</body>
+</html>

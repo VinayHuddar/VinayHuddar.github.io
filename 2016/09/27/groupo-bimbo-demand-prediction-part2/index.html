@@ -1,0 +1,1327 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="Vinay Huddar" />
+        <meta name="keywords" content="Notebook,Kaggle,Regression,XGBoost,XGBRegressor,TimeSeries" />
+        <meta name="description" content="In the previous post I described the problem and the dataset, and performed a comprehensive EDA. In this post we will develop Machine Learning models that will learn from the seven weeks of sales data and predict product demands of the following two weeks. We will begin by reading-in the preprocessed data from the previous post." />
+
+
+    <title>Groupo Bimbo Demand Prediction - Part2 - My Data Science Lab</title>
+
+        <link rel="stylesheet" href="/theme/css/bootstrap.sandstone.min.css" type="text/css"/>
+
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/theme/css/pygments/colorful.css" rel="stylesheet" />
+    
+    <link href="/theme/css/pelican-twitchy.min.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Feeds -->
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="My Data Science Lab ATOM Feed" />
+</head>
+<body data-spy="scroll" data-target="#scrollspy">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper-small" class="twitchy-background">
+            <ul id="accordion-small" class="sidebar-nav sidebar-nav-small">
+                <li>
+        <a href="" title="My Data Science Lab" class="collapsed">
+            <span class="glyphicon glyphicon-home"></span>
+        </a>
+    </li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="/archives.html" title="Recent Articles" class="collapsed">
+            <span class="glyphicon glyphicon-th-list"></span>
+        </a>
+    </li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion-small" href="#collapse-social-small" title="Social" class="collapsed">
+                        <i class="fa fa-users padding-small"></i>
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social-small" class="collapse ">
+                    <li>
+                        <a href="mailto:huddar.vinay@gmail.com" title="EMAIL"><i class="fa fa-envelope-square fa-lg padding-small"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/VinayHuddar" title="GitHub"><i class="fa fa-github-square fa-lg padding-small"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/vinay-huddar" title="LinkedIn"><i class="fa fa-linkedin-square fa-lg padding-small"></i></a>
+                    </li>
+                </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="#" title="Back to top" class="collapsed">
+            <span class="fa fa-arrow-up"></span>
+        </a>
+    </li>
+            </ul>
+        </div>
+        <div id="sidebar-wrapper" class="twitchy-background">
+            <ul id="accordion" class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                            <span class="glyphicon glyphicon-home padding-small"></span>
+                            My Data Science Lab
+                    </a>
+                </li>
+                    <li class="nav-divider"></li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-latest">
+                            <span class="glyphicon glyphicon-th-list padding-small"></span>
+                            Recent Articles
+                        </a>
+                    </li>
+                    <li class="panel anti-panel"><ul id="collapse-latest" class="sidebar_submenu collapse in">
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/28/bike-rentals-prediction/" title="Predicting Bike Rentals">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Predicting Bike Rentals
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a class="hide-overflow" href="/2016/09/27/groupo-bimbo-demand-prediction-part2/" title="Groupo Bimbo Demand Prediction - Part2">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Groupo Bimbo Demand Prediction - Part2
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/25/groupo-bimbo-demand-prediction-part1/" title="Groupo Bimbo Demand Prediction - Part1">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Groupo Bimbo Demand Prediction - Part1
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/22/talkingdata-user-demographics-predictions-part1/" title="TalkingData Mobile User Demographics - Part 1">
+                                <i class="fa fa-file-text padding-small"></i>
+                                TalkingData Mobile User Demographics - Part 1
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/22/talkingdata-user-demographics-predictions-part2/" title="TalkingData Mobile User Demographics - Part 2">
+                                <i class="fa fa-file-text padding-small"></i>
+                                TalkingData Mobile User Demographics - Part 2
+                            </a>
+                        </li>
+                    <li>
+                        <a href="/archives.html">
+                            <i class="fa fa-arrow-right padding-small"></i>
+                            More
+                        </a>
+                    </li>
+                    </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-social">
+                        <i class="fa fa-users padding-small"></i>
+                        Contact
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="mailto:huddar.vinay@gmail.com" title="EMAIL">
+                            <i class="fa fa-envelope-square fa-lg padding-small"></i>
+                            EMAIL
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/VinayHuddar" title="GitHub">
+                            <i class="fa fa-github-square fa-lg padding-small"></i>
+                            GitHub
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/vinay-huddar" title="LinkedIn">
+                            <i class="fa fa-linkedin-square fa-lg padding-small"></i>
+                            LinkedIn
+                        </a>
+                    </li>
+                </ul></li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-pages">
+                        <i class="fa fa-folder-open padding-small"></i>
+                        Pages
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-pages" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="/pages/about.html">
+                            <i class="fa fa-file-text padding-small"></i>
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/my-data-science-lab.html">
+                            <i class="fa fa-file-text padding-small"></i>
+                            My Data Science Lab
+                        </a>
+                    </li>
+                </ul></li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-categories">
+                        <i class="fa fa-folder-open padding-small"></i>
+                        Categories
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-categories" class="sidebar_submenu collapse ">
+                    <li >
+                        <a href="/category/data-science-process.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Data Science Process
+                            <span class="badge pull-right categorybadge">2</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/category/kaggle-series.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Kaggle Series
+                            <span class="badge pull-right categorybadge">4</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/category/playground.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Playground
+                            <span class="badge pull-right categorybadge">1</span>
+                        </a>
+                    </li>
+                </ul></li>
+                
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- open/close sidebar -->
+        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+            <span id="right-arrow" class="glyphicon glyphicon-chevron-right"  title="expand sidebar"></span>
+            <span id="left-arrow" class="glyphicon glyphicon-chevron-left" title="minimize sidebar"></span>
+        </a>
+       <!-- /open/close sidebar -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+<section id="content">
+    <article>
+        <div class="row">
+            <div class="col-lg-9">
+                <header class="page-header">
+                    <h1>
+                        <a href="/2016/09/27/groupo-bimbo-demand-prediction-part2/"
+                           rel="bookmark"
+                           title="Permalink to Groupo Bimbo Demand Prediction - Part2">
+                            Groupo Bimbo Demand Prediction - Part2
+                        </a>
+                        <small>
+<div class="post-info">
+    <div class="publish-info-block">
+        <small>
+            <span class="published">
+                <i class="fa fa-calendar padding-small"></i><time datetime="2016-09-27T15:20:00+05:30"> Tue 27 September 2016</time>
+            </span>
+            <span class="category">
+                <i class="fa fa-folder-open padding-small"></i><a href="/category/kaggle-series.html">Kaggle Series</a>
+            </span>
+            <span class="tags">
+                <i class="fa fa-tags padding-small"></i>
+                <a href="/tag/notebook.html">Notebook</a> /                 <a href="/tag/kaggle.html">Kaggle</a> /                 <a href="/tag/regression.html">Regression</a> /                 <a href="/tag/xgboost.html">XGBoost</a> /                 <a href="/tag/xgbregressor.html">XGBRegressor</a> /                 <a href="/tag/timeseries.html">TimeSeries</a>            </span>
+        </small>
+    </div>
+</div><!-- /.post-info -->                        </small>
+                    </h1>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="entry-content">
+                    <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/.ansibold{font-weight:700}.ansiblack{}.ansired{color:#8b0000}.ansigreen{6400}.ansiyellow{color:#c4a000}.ansiblue{8b}.ansipurple{color:#9400d3}.ansicyan{color:#4682b4}.ansigray{color:gray}.ansibgblack{background-}.ansibgred{background-color:red}.ansibggreen{background-color:green}.ansibgyellow{background-color:#ff0}.ansibgblue{background-f}.ansibgpurple{background-color:#ff00ff}.ansibgcyan{background-ff}.ansibggray{background-color:gray}div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;border-radius:2px;box-sizing:border-box;-moz-box-sizing:border-box;border-width:thin;border-style:solid;width:100%;padding:5px;margin:0;outline:0}div.cell.selected{border-color:#ababab}@media print{div.cell.selected{border-color:transparent}}.edit_mode div.cell.selected{border-color:green}.prompt{min-width:14ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}@-moz-document url-prefix(){div.inner_cell{overflow-x:hidden}}div.input_area{border:1px solid #cfcfcf;border-radius:2px;background:#f7f7f7;line-height:1.21429em}div.prompt:empty{padding-top:0;padding-bottom:0}div.unrecognized_cell{padding:5px 5px 5px 0;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.unrecognized_cell .inner_cell{border-radius:2px;padding:5px;font-weight:700;color:red;border:1px solid #cfcfcf;background:#eaeaea}div.unrecognized_cell .inner_cell a,div.unrecognized_cell .inner_cell a:hover{color:inherit;text-decoration:none}@media (max-width:540px){.prompt{text-align:left}div.unrecognized_cell>div.prompt{display:none}}div.code_cell{}div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.input{-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.input_prompt{color:navy;border-top:1px solid transparent}div.input_area>div.highlight{margin:.4em;border:none;padding:0;background-color:transparent}div.input_area>div.highlight>pre{margin:0;border:none;padding:0;background-color:transparent}.CodeMirror{line-height:1.21429em;font-size:14px;height:auto;background:0 0}.CodeMirror-scroll{overflow-y:hidden;overflow-x:auto}.CodeMirror-lines{padding:.4em}.CodeMirror-linenumber{padding:0 8px 0 4px}.CodeMirror-gutters{border-bottom-left-radius:2px;border-top-left-radius:2px}.CodeMirror pre{padding:0;border:0;border-radius:0}.highlight-base,.highlight-variable{}.highlight-variable-2{color:#1a1a1a}.highlight-variable-3{color:#333}.highlight-string{color:#BA2121}.highlight-comment{color:#408080;font-style:italic}.highlight-number{80}.highlight-atom{color:#88F}.highlight-keyword{color:green;font-weight:700}.highlight-builtin{color:green}.highlight-error{color:red}.highlight-operator{color:#A2F;font-weight:700}.highlight-meta{color:#A2F}.highlight-def{f}.highlight-string-2{color:#f50}.highlight-qualifier{color:#555}.highlight-bracket{color:#997}.highlight-tag{color:#170}.highlight-attribute{c}.highlight-header{f}.highlight-quote{90}.highlight-link{c}.cm-s-ipython span.cm-keyword{color:green;font-weight:700}.cm-s-ipython span.cm-atom{color:#88F}.cm-s-ipython span.cm-number{80}.cm-s-ipython span.cm-def{f}.cm-s-ipython span.cm-variable{}.cm-s-ipython span.cm-operator{color:#A2F;font-weight:700}.cm-s-ipython span.cm-variable-2{color:#1a1a1a}.cm-s-ipython span.cm-variable-3{color:#333}.cm-s-ipython span.cm-comment{color:#408080;font-style:italic}.cm-s-ipython span.cm-string{color:#BA2121}.cm-s-ipython span.cm-string-2{color:#f50}.cm-s-ipython span.cm-meta{color:#A2F}.cm-s-ipython span.cm-qualifier{color:#555}.cm-s-ipython span.cm-builtin{color:green}.cm-s-ipython span.cm-bracket{color:#997}.cm-s-ipython span.cm-tag{color:#170}.cm-s-ipython span.cm-attribute{c}.cm-s-ipython span.cm-header{f}.cm-s-ipython span.cm-quote{90}.cm-s-ipython span.cm-link{c}.cm-s-ipython span.cm-error{color:red}.cm-s-ipython span.cm-tab{background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=')right no-repeat}div.output_wrapper{display:-webkit-box;-webkit-box-align:stretch;display:-moz-box;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;z-index:1}div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:2px;-webkit-box-shadow:inset 0 2px 8px rgba(0,0,0,.8);box-shadow:inset 0 2px 8px rgba(0,0,0,.8);display:block}div.output_collapsed{margin:0;padding:0;display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.out_prompt_overlay{height:100%;padding:0 .4em;position:absolute;border-radius:2px}div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000;box-shadow:inset 0 0 1px #000;background:rgba(240,240,240,.5)}div.output_prompt{color:#8b0000}div.output_area{padding:0;page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.output_area .MathJax_Display{text-align:left!important}div.output_area div.output_area img,div.output_area svg{max-width:100%;height:auto}div.output_area img.unconfined,div.output_area svg.unconfined{max-width:none}.output{display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}@media (max-width:540px){div.output_area{-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.output_area pre{margin:0;padding:0;border:0;vertical-align:baseline;background-color:transparent;border-radius:0}div.output_subarea{overflow-x:auto;padding:.4em;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1;max-width:calc(100% - 14ex)}div.output_text{text-align:left;line-height:1.21429em}div.output_stderr{background:#fdd}div.output_latex{text-align:left}div.output_javascript:empty{padding:0}.js-error{color:#8b0000}div.raw_input_container{font-family:monospace;padding-top:5px}span.raw_input_prompt{}input.raw_input{font-family:inherit;font-size:inherit;color:inherit;width:auto;vertical-align:baseline;padding:0 .25em;margin:0 .25em}input.raw_input:focus{box-shadow:none}p.p-space{margin-bottom:10px}div.output_unrecognized{padding:5px;font-weight:700;color:red}div.output_unrecognized a,div.output_unrecognized a:hover{color:inherit;text-decoration:none}.rendered_html{}.rendered_html :link,.rendered_html :visited,.rendered_html h1:first-child{margin-top:.538em}.rendered_html h2:first-child{margin-top:.636em}.rendered_html h3:first-child{margin-top:.777em}.rendered_html h4:first-child,.rendered_html h5:first-child,.rendered_html h6:first-child{margin-top:1em}.rendered_html *+ol,.rendered_html *+ul{margin-top:1em}.rendered_html *+table{margin-top:1em}.rendered_html *+p{margin-top:1em}.rendered_html *+img{margin-top:1em}div.text_cell{display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.text_cell>div.prompt{display:none}}div.text_cell_render{outline:0;resize:none;width:inherit;border-style:none;padding:.5em .5em .5em .4em;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}a.anchor-link:link{text-decoration:none;padding:0 20px;visibility:hidden}h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible}.text_cell.rendered .input_area{display:none}.text_cell.rendered .text_cell.unrendered .text_cell_render{display:none}.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6{font-weight:700;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.cm-header-1{font-size:185.7%}.cm-header-2{font-size:157.1%}.cm-header-3{font-size:128.6%}.cm-header-4{font-size:110%}.cm-header-5,.cm-header-6{font-size:100%;font-style:italic}</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the <a href="/2016/09/25/groupo-bimbo-demand-prediction-part1/">previous post</a> I described the problem and the dataset, and performed a comprehensive EDA. In this post we will develop Machine Learning models that will learn from the seven weeks of sales data and predict product demands of the following two weeks.</p>
+<p>We will begin by reading-in the preprocessed data from the previous post.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [53]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="kn">as</span> <span class="nn">xgb</span>
+
+<span class="k">def</span> <span class="nf">get_preprocessed_data</span><span class="p">():</span>
+    <span class="c"># Read train data</span>
+    <span class="c"># Since the data is in gigabytes it helps to use data types of just the right size</span>
+    <span class="n">data_types</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Week'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span> <span class="s">'Agency_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="s">'Channel_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span> 
+           <span class="s">'Route_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="s">'Client_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span><span class="s">'Product_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> 
+           <span class="s">'Units_sold'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="s">'Earnings'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="s">'Units_returned'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>
+           <span class="s">'Money_returned'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">}</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'train_enc.csv'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_types</span><span class="p">)</span>
+
+    <span class="c"># Read test data</span>
+    <span class="n">data_types</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Week'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span> <span class="s">'Agency_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="s">'Channel_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span> 
+           <span class="s">'Route_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="s">'Client_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span><span class="s">'Product_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">}</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'test_enc.csv'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_types</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">get_preprocessed_data</span><span class="p">()</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="table table-hover table-striped dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Week</th>
+<th>Channel_id</th>
+<th>Route_id</th>
+<th>Units_sold</th>
+<th>Earnings</th>
+<th>Units_returned</th>
+<th>Money_returned</th>
+<th>Adj_demand</th>
+<th>Product_id</th>
+<th>Agency_id</th>
+<th>Client_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0</td>
+<td>6</td>
+<td>1360</td>
+<td>3</td>
+<td>25.14</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>103</td>
+<td>0</td>
+<td>4755</td>
+</tr>
+<tr>
+<th>1</th>
+<td>0</td>
+<td>6</td>
+<td>1360</td>
+<td>4</td>
+<td>33.52</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>104</td>
+<td>0</td>
+<td>4755</td>
+</tr>
+<tr>
+<th>2</th>
+<td>0</td>
+<td>6</td>
+<td>1360</td>
+<td>4</td>
+<td>39.32</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>109</td>
+<td>0</td>
+<td>4755</td>
+</tr>
+<tr>
+<th>3</th>
+<td>0</td>
+<td>6</td>
+<td>1360</td>
+<td>4</td>
+<td>33.52</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>110</td>
+<td>0</td>
+<td>4755</td>
+</tr>
+<tr>
+<th>4</th>
+<td>0</td>
+<td>6</td>
+<td>1360</td>
+<td>3</td>
+<td>22.92</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>111</td>
+<td>0</td>
+<td>4755</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Model-Building">Model Building<a class="anchor-link" href="#Model-Building">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our goal is to predict product demands based on historical sales data. <strong>This is a Regression probem.</strong>  The predictions have to be made on a per customer and per product level, i.e. what would be the demand from a particular customer for a particular particular product given his purchase behavior of the past seven weeks. His purchase behavior reflects in the frequency of purchase - whether the product was bought in all the weeks or in every alternate weeks or only once a month, and in the quantum of purchase - how many items were ordered in each transaction and whether there was any pattern.</p>
+<p>We will look at two solutions to this problem:</p>
+<ol>
+<li><strong>Statistical Solution</strong></li>
+<li><strong>Machine Learning Solution</strong></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Statistical-Solution">Statistical Solution<a class="anchor-link" href="#Statistical-Solution">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Towards the end of the EDA in the <a href="/2016/09/25/groupo-bimbo-demand-prediction-part1/">last post</a> we saw that there was no definite pattern in the purchase behavior of customers. However, looking at the frequency and quantum of orders we could make rough predictions of upcoming orders. For example, if a customer has been purchasing a product in all the weeks and quantity of purchase has always been in the 20 to 30 range we could say that he would most probably buy that product in the coming weeks too and the order size would be in the range 20 to 30.</p>
+<h4 id="A-simple-solution">A simple solution<a class="anchor-link" href="#A-simple-solution">¶</a></h4><p>A simple way of formulating this behavior is to take the mean of all the past purchases of a product by a customer and use it as the predicted demand. This would capture the general purchasing behavior of a customer w.r.t a certain product.</p>
+<h4 id="A-drawback">A drawback<a class="anchor-link" href="#A-drawback">¶</a></h4><p>A drawback of this solution is that it doesn't make use of timing data. For example, if a customer has been steadily increasing the size of purchase over the weeks it makes sense for the next order to be higher than the previous one. The mean-based model, however, would predict a smaller order (compared to the last order) since the mean would be smaller than the last order.</p>
+<h4 id="A-challenge">A challenge<a class="anchor-link" href="#A-challenge">¶</a></h4><p>We also saw in the EDA that there is some churn in the customer mix week-over-week. We saw that, week over week, about 90% of the customers are repeat customers, a small percentage of the customers drop out and new ones get added. The solution has to address this volatility.</p>
+<h4 id="A-way-of-addressing-the-challenge">A way of addressing the challenge<a class="anchor-link" href="#A-way-of-addressing-the-challenge">¶</a></h4><p>An intuitive way of addressing this volatility is to look for purchase patterns of customers along the route of a customer if the customer doesn't have a history of purchasing a product, who's demand we are predicting. If no other customers along the route have purchased that product before, which is possible if the product is newly introduced in that route, the next best thing we can do is to look for purchase patterns of customers served by the same Agency that serves the customer we are predicting the demand for.</p>
+<p>We will implement this solution and check out how close we can get to the ground truth. The score of this model will serve as a baseline score for the Machine Learning model.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [60]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="n">prod_mean_dem</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'Product_id'</span><span class="p">)[</span><span class="s">'Adj_demand'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">predict_mean_dem</span><span class="p">(</span><span class="n">prod_id</span><span class="p">):</span>
+    <span class="n">X_train_prod</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">X_train</span><span class="o">.</span><span class="n">Product_id</span> <span class="o">==</span> <span class="n">prod_id</span><span class="p">]</span>
+    <span class="n">X_test_prod</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">X_test</span><span class="o">.</span><span class="n">Product_id</span> <span class="o">==</span> <span class="n">prod_id</span><span class="p">]</span>
+
+    <span class="n">client_prod_mean_dem</span> <span class="o">=</span> <span class="n">X_train_prod</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'Client_id'</span><span class="p">)[</span><span class="s">'Adj_demand'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="n">route_prod_mean_dem</span> <span class="o">=</span> <span class="n">X_train_prod</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'Route_id'</span><span class="p">)[</span><span class="s">'Adj_demand'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="n">agency_prod_mean_dem</span> <span class="o">=</span> <span class="n">X_train_prod</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'Agency_id'</span><span class="p">)[</span><span class="s">'Adj_demand'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_test_prod</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">X_test_prod</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span>
+        <span class="n">dem</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c"># default demand if there is no sales history for the product</span>
+        <span class="k">if</span> <span class="n">client_prod_mean_dem</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">Client_id</span><span class="p">):</span>
+            <span class="n">dem</span> <span class="o">=</span> <span class="n">client_prod_mean_dem</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">Client_id</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">route_prod_mean_dem</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">Route_id</span><span class="p">):</span>
+            <span class="n">dem</span> <span class="o">=</span> <span class="n">route_prod_mean_dem</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">Route_id</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">agency_prod_mean_dem</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">Agency_id</span><span class="p">):</span>
+            <span class="n">dem</span> <span class="o">=</span> <span class="n">agency_prod_mean_dem</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">Agency_id</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">prod_mean_dem</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">prod_id</span><span class="p">):</span>
+            <span class="n">dem</span> <span class="o">=</span> <span class="n">prod_mean_dem</span><span class="p">[</span><span class="n">prod_id</span><span class="p">]</span>
+        <span class="n">pred_dems</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dem</span>
+        
+<span class="n">pred_dems</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">prod</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">Product_id</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+    <span class="n">predict_mean_dem</span><span class="p">(</span><span class="n">prod</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="k">100</span> == 0):
+        <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Processed Products {0}:{1} in {2}m:{3}s'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="p">,</span> <span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span><span class="o">%</span><span class="k">60</span>))
+        <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'id'</span><span class="p">:</span> <span class="n">X_test</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s">'Demanda_uni_equil'</span><span class="p">:</span> <span class="n">pred_dems</span><span class="p">})</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'Subm_mean_soln_blog.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Processed Products 0:100 in 11.9472861846m:56.8371710777s
+Processed Products 100:200 in 3.63568364779m:38.1410188675s
+Processed Products 200:300 in 1.63313018481m:37.9878110886s
+Processed Products 300:400 in 0.576172216733m:34.570333004s
+Processed Products 400:500 in 0.448251700401m:26.8951020241s
+Processed Products 500:600 in 0.260913948218m:15.6548368931s
+Processed Products 600:700 in 0.201130084197m:12.0678050518s
+Processed Products 700:800 in 0.185407332579m:11.1244399548s
+Processed Products 800:900 in 0.170010081927m:10.2006049156s
+Processed Products 900:1000 in 0.154214433829m:9.25286602974s
+Processed Products 1000:1100 in 0.144817614555m:8.68905687332s
+Processed Products 1100:1200 in 0.140769934654m:8.44619607925s
+Processed Products 1200:1300 in 0.136869800091m:8.21218800545s
+Processed Products 1300:1400 in 0.134838501612m:8.09031009674s
+Processed Products 1400:1500 in 0.135490584373m:8.12943506241s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It's a very simple solution. We <strong>lookup the mean sales</strong> of a product hierarchically in the following order: Client -&gt; Route -&gt; Agency -&gt; Product, and take the mean of Adj_demand in the first level that we find a sales history in. For example, if the client had bought the product before we would take the mean of Adj_demand of those transactions.</p>
+<p>If the client has not bought the product before, we would go looking for transactions of other clients along the same route for that product and take the mean of Adj_demand of those transactions. The same logic is applied at the next two levels (Agency and Product). If the product has no sales history at all, we simply predict a 1.</p>
+<h4 id="How-well-does-the-algorithm-score?">How well does the algorithm score?<a class="anchor-link" href="#How-well-does-the-algorithm-score?">¶</a></h4><p>This simplest of solutions scored <strong>0.5467</strong> and would have gotten us into top 60% of the Leader Board on Kaggle.:) So, this is our baseline score. Any model that we train should score better than this one.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Machine-Learning-Solution_1">Machine Learning Solution<a class="anchor-link" href="#Machine-Learning-Solution">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Problem-with-the-previous-solution">Problem with the previous solution<a class="anchor-link" href="#Problem-with-the-previous-solution">¶</a></h4><p>There was no "learning" in the previous solution. And, the solution did not make use of timing data. The predictions for product sale volumes [1, 2, 3, 4, 5, 6, 7] and [7, 6, 5, 4, 3, 2, 1] would be the same, which is 4 - the mean. A better prediction would be 8 in the first case and 0 in the second.</p>
+<h4 id="An-obvious-solution">An obvious solution<a class="anchor-link" href="#An-obvious-solution">¶</a></h4><p>A simple way of addressing this problem is to fit a line for each unique and valid Client + Product combination in the dataset. A valid Client + Product combination is one that has atleast one transaction containing both of them.</p>
+<h4 id="Why-the-obvious-solution-may-not-work">Why the obvious solution may not work<a class="anchor-link" href="#Why-the-obvious-solution-may-not-work">¶</a></h4><p>We know that there are about 880,000 clients and 1800 products. For simplicity let's assume no transactions with new Client + Product pairs are added after the first week; i.e. all valid Client + Product combinations show up in the first week itself. I made this assumption to drive home the point that there would be more than 11 million lines to fit (first week has more than 11 million transaction records) if we take this approach. And, that would be a very costly affair, both w.r.t time and computation resrouces.</p>
+<h4 id="An-alternative-solution-that-works">An alternative solution that works<a class="anchor-link" href="#An-alternative-solution-that-works">¶</a></h4><p>A better alternative is to embed time-based product sales information into the feature set and feed it to a Machine Learning model to learn from it. So, how do we come up with features that capture time-based sales information? We can directly use weekly product sales (i.e. Adj_demand) as features. For example, second week transactions can have first week sales data as a feature. Third week transactions can have first two weeks sales data as two features. And, so on.</p>
+<h4 id="An-implementation-challenge-in-the-alternative-solution">An implementation challenge in the alternative solution<a class="anchor-link" href="#An-implementation-challenge-in-the-alternative-solution">¶</a></h4><p>While this makes perfect sense implementing it as described is not possible due to the limitations of the algorithms and tools. The problem arises due to the fact that transactions in different weeks will have different number of time-based features. Week X will have X number of features. Week-0 will have zero time-based features because there is no sales history before Week 0 and Week-6 will have 6 features (sales data of weeks 0 to 5).</p>
+<p>A feature is a column in a Dataframe. And rows in a Dataframe are all of the same size. So, the design constraints of the Dataframe prevents different transactions from having different number of features.</p>
+<h4 id="A-way-to-overcome-the-implementation-challenge">A way to overcome the implementation challenge<a class="anchor-link" href="#A-way-to-overcome-the-implementation-challenge">¶</a></h4><p>One solution is to train the model only on the latter half of the weeks (Weeks 3, 4, 5 and 6), using Adj_demand of weeks prior to them as <strong>Lag</strong> features. I will let the following table speak for itself.</p>
+<table class="table table-hover table-striped">
+<thead><tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">Lag-1</th>
+<th>Lag-2</th>
+<th>Lag-3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Week 3 transactions</td>
+<td style="text-align:left">Week-2 Adj_demand</td>
+<td>Week-1 Adj_demand</td>
+<td>Week-0 Adj_demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 4 transactions</td>
+<td style="text-align:left">Week-3 Adj_demand</td>
+<td>Week-2 Adj_demand</td>
+<td>Week-1 Adj_demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 5 transactions</td>
+<td style="text-align:left">Week-4 Adj_demand</td>
+<td>Week-3 Adj_demand</td>
+<td>Week-2 Adj_demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 6 transactions</td>
+<td style="text-align:left">Week-5 Adj_demand</td>
+<td>Week-4 Adj_demand</td>
+<td>Week-3 Adj_demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 7 transactions</td>
+<td style="text-align:left">Week-6 Adj_demand</td>
+<td>Week-5 Adj_demand</td>
+<td>Week-4 Adj_demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 8 transactions</td>
+<td style="text-align:left">Week-7 Predictions</td>
+<td>Week-6 Adj_demand</td>
+<td>Week-5 Adj_demand</td>
+</tr>
+</tbody>
+</table>
+<p>What we are doing is very simple <strong>Feature Engineeering</strong>. We will do more of this later. Let's add lag features now.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [70]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Stack train and test data and remove the older dataframes</span>
+<span class="n">X_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">del</span> <span class="n">X_train</span>
+<span class="k">del</span> <span class="n">X_test</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="n">X_data</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>(81179715, 12)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I will be defining functions for holding most of the logic of this solution since we will be using the same logic twice - first for trying-out Three-Lag feature solution and then for implementing Five-Lag feature solution.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [128]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">add_lag_features</span><span class="p">(</span><span class="n">lag_depth</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">X_data</span>
+    <span class="k">for</span> <span class="n">lagnum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lag_depth</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">lag_data</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[[</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Client_id'</span><span class="p">,</span> <span class="s">'Product_id'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">]]</span>
+        <span class="n">lag_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">=</span> <span class="n">lag_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">+</span> <span class="n">lagnum</span>
+        <span class="n">lag_data</span> <span class="o">=</span> <span class="n">lag_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Client_id'</span><span class="p">,</span> <span class="s">'Product_id'</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+        <span class="n">lag_feature_name</span> <span class="o">=</span> <span class="s">'Lag'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lagnum</span><span class="p">)</span>
+        <span class="n">lag_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">'Adj_demand'</span><span class="p">:</span> <span class="n">lag_feature_name</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">X_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">lag_data</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s">'left'</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="k">del</span> <span class="n">lag_data</span>
+        <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Added </span><span class="si">%s</span><span class="s"> feature in </span><span class="si">%d</span><span class="s"> secs"</span> <span class="o">%</span> <span class="p">(</span><span class="n">lag_feature_name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">tic</span><span class="p">))</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">-</span> <span class="p">[</span><span class="s">'Units_sold'</span><span class="p">,</span> <span class="s">'Units_returned'</span><span class="p">,</span> <span class="s">'Earnings'</span><span class="p">,</span> <span class="s">'Money_returned'</span><span class="p">]]</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">&gt;=</span> <span class="n">lag_depth</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [72]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">add_lag_features</span><span class="p">(</span><span class="n">lag_depth</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">lagnum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lag_depth</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">lag_data</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[[</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Client_id'</span><span class="p">,</span> <span class="s">'Product_id'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">]]</span>
+        <span class="n">lag_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">=</span> <span class="n">lag_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">+</span> <span class="n">lagnum</span>
+        <span class="n">lag_data</span> <span class="o">=</span> <span class="n">lag_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Client_id'</span><span class="p">,</span> <span class="s">'Product_id'</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+        <span class="n">lag_feature_name</span> <span class="o">=</span> <span class="s">'Lag'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lagnum</span><span class="p">)</span>
+        <span class="n">lag_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">'Adj_demand'</span><span class="p">:</span> <span class="n">lag_feature_name</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">X_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">lag_data</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s">'left'</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="k">del</span> <span class="n">lag_data</span>
+        <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Added </span><span class="si">%s</span><span class="s"> feature in </span><span class="si">%d</span><span class="s"> secs"</span> <span class="o">%</span> <span class="p">(</span><span class="n">lag_feature_name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">tic</span><span class="p">))</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">-</span> <span class="p">[</span><span class="s">'Units_sold'</span><span class="p">,</span> <span class="s">'Units_returned'</span><span class="p">,</span> <span class="s">'Earnings'</span><span class="p">,</span> <span class="s">'Money_returned'</span><span class="p">]]</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">&gt;=</span> <span class="n">lag_depth</span><span class="p">]</span>
+    
+<span class="n">add_lag_features</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Added Lag1 feature in 183 secs
+Added Lag2 feature in 161 secs
+Added Lag3 feature in 177 secs
+</pre>
+</div>
+</div>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/vinayhuddar/anaconda/lib/python2.7/site-packages/pandas/core/generic.py:2387: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self[name] = value
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [75]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">print</span><span class="p">(</span><span class="s">'X_data.shape: {0}</span><span class="se">\n</span><span class="s">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="n">X_data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>X_data.shape: (48389518, 11)
+
+</pre>
+</div>
+</div>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/vinayhuddar/anaconda/lib/python2.7/site-packages/ipykernel/__main__.py:1: FutureWarning: using &amp;apos;-&amp;apos; to provide set differences with Indexes is deprecated, use .difference()
+  if __name__ == &amp;apos;__main__&amp;apos;:
+</pre>
+</div>
+</div>
+<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="table table-hover table-striped dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Adj_demand</th>
+<th>Agency_id</th>
+<th>Channel_id</th>
+<th>Client_id</th>
+<th>Lag1</th>
+<th>Lag2</th>
+<th>Lag3</th>
+<th>Product_id</th>
+<th>Route_id</th>
+<th>Week</th>
+<th>id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>32790197</th>
+<td>15</td>
+<td>392</td>
+<td>1</td>
+<td>26</td>
+<td>15</td>
+<td>16</td>
+<td>20</td>
+<td>614</td>
+<td>2279</td>
+<td>3</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>32790198</th>
+<td>7</td>
+<td>392</td>
+<td>1</td>
+<td>26</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>919</td>
+<td>2279</td>
+<td>3</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>32790199</th>
+<td>10</td>
+<td>498</td>
+<td>1</td>
+<td>26</td>
+<td>10</td>
+<td>30</td>
+<td>15</td>
+<td>970</td>
+<td>1656</td>
+<td>3</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Train-XGBoost-on-Lag-features_1">Train XGBoost on Lag features<a class="anchor-link" href="#Train-XGBoost-on-Lag-features">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will fit an XGBRegressor model on Week-3 to Week-6 samples with Lag features. The parameters of the model were chosen after a brief search of the parameter space. In the interest of brevity of the post I will not be describing the parameter tuning process.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [146]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Build and train an XGBRegressor</span>
+<span class="k">def</span> <span class="nf">train_XGBRegr</span><span class="p">():</span>
+    <span class="n">xgbRegr</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s">'reg:linear'</span><span class="p">,</span>
+                               <span class="n">nthread</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1440</span><span class="p">)</span>
+
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">&gt;=</span> <span class="mi">7</span><span class="p">]</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">,</span> <span class="s">'id'</span><span class="p">])]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">Adj_demand</span>
+
+    <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">xgbRegr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Model trained in </span><span class="si">%d</span><span class="s">m:</span><span class="si">%d</span><span class="s">s'</span> <span class="o">%</span> <span class="p">((</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="p">,</span> <span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span><span class="o">%</span><span class="k">60</span>))
+    
+    <span class="k">return</span> <span class="n">xgbRegr</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [94]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">train_XGBRegr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model trained in 44m:48s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will now do the following.</p>
+<ul>
+<li>predict Week-7 demands using the model that we trained above</li>
+<li>add Week-7 predicted demands as Lag1 feature of Week 8, which are NAs otherwise</li>
+<li>predict Week-8 demands </li>
+<li>submit the stacked Week-7 and Week-8 predictions for scoring.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [159]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">predict_demands</span><span class="p">(</span><span class="n">xgbRegr</span><span class="p">):</span> 
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[</span><span class="n">X_data</span><span class="o">.</span><span class="n">Week</span> <span class="o">&gt;=</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="n">X_test</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c"># Predict Week-7 demands</span>
+    <span class="n">X_week7</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">X_test</span><span class="o">.</span><span class="n">Week</span> <span class="o">==</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="n">preds_wk7</span> <span class="o">=</span> <span class="n">xgbRegr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_week7</span><span class="p">[</span><span class="n">X_week7</span><span class="o">.</span><span class="n">columns</span> <span class="o">-</span> <span class="p">[</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">,</span> <span class="s">'id'</span><span class="p">]])</span> <span class="c">#['Lag1', 'Lag2', 'Lag3']]) #</span>
+    <span class="n">preds_wk7</span><span class="p">[</span><span class="n">preds_wk7</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">X_week7</span><span class="o">.</span><span class="n">Adj_demand</span> <span class="o">=</span> <span class="n">preds_wk7</span>
+
+    <span class="c"># Process Week 8 data. Fill Lag1 data from Week 10 predictions and compute predictions</span>
+    <span class="n">X_week8</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">X_test</span><span class="o">.</span><span class="n">Week</span> <span class="o">==</span> <span class="mi">8</span><span class="p">]</span>
+    <span class="c"># Compute Lag1 from Week 10 predictions</span>
+    <span class="n">wk8_mean_dems</span> <span class="o">=</span> <span class="n">X_week8</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">'Client_id'</span><span class="p">,</span> <span class="s">'Product_id'</span><span class="p">])[</span><span class="s">'Adj_demand'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">wk8_mean_dems</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Adj_demand'</span><span class="p">:</span> <span class="s">'Lag1'</span><span class="p">},</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">X_week8</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s">'Lag1'</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">X_week8</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">X_week8</span><span class="p">,</span> <span class="n">wk8_mean_dems</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s">'left'</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+
+    <span class="c"># Predict Week-8 demands</span>
+    <span class="n">preds_wk8</span> <span class="o">=</span> <span class="n">xgbRegr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_week8</span><span class="p">[</span><span class="n">X_week8</span><span class="o">.</span><span class="n">columns</span> <span class="o">-</span> <span class="p">[</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">,</span> <span class="s">'id'</span><span class="p">]])</span> <span class="c">#['Lag1', 'Lag2', 'Lag3']]) #</span>
+    <span class="n">preds_wk8</span><span class="p">[</span><span class="n">preds_wk8</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">X_week8</span><span class="o">.</span><span class="n">Adj_demand</span> <span class="o">=</span> <span class="n">preds_wk8</span>
+
+    <span class="c"># Prepare the submission file</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">X_week7</span><span class="p">[[</span><span class="s">'id'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">]],</span> <span class="n">X_week8</span><span class="p">[[</span><span class="s">'id'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">]],</span> 
+                           <span class="n">how</span><span class="o">=</span><span class="s">'outer'</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s">'id'</span><span class="p">)</span>
+    <span class="n">subm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'id'</span><span class="p">:</span><span class="nb">range</span><span class="p">(</span><span class="mi">6999251</span><span class="p">),</span> <span class="s">'Demanda_uni_equil'</span><span class="p">:</span> <span class="n">preds</span><span class="o">.</span><span class="n">Adj_demand</span><span class="o">.</span><span class="n">tolist</span><span class="p">()})</span>
+    
+    <span class="c"># Clean up </span>
+    <span class="k">del</span> <span class="n">X_week7</span><span class="p">,</span> <span class="n">preds_wk7</span><span class="p">,</span> <span class="n">X_week8</span><span class="p">,</span> <span class="n">preds_wk8</span><span class="p">,</span> <span class="n">wk8_mean_dems</span><span class="p">,</span> <span class="n">preds</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">subm</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [97]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">subm_df</span> <span class="o">=</span> <span class="n">predict_demands</span><span class="p">()</span>
+<span class="n">subm_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'Lag3_with_ids_blog.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/vinayhuddar/anaconda/lib/python2.7/site-packages/ipykernel/__main__.py:3: FutureWarning: using &amp;apos;-&amp;apos; to provide set differences with Indexes is deprecated, use .difference()
+  app.launch_new_instance()
+/Users/vinayhuddar/anaconda/lib/python2.7/site-packages/ipykernel/__main__.py:12: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+/Users/vinayhuddar/anaconda/lib/python2.7/site-packages/ipykernel/__main__.py:19: FutureWarning: using &amp;apos;-&amp;apos; to provide set differences with Indexes is deprecated, use .difference()
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The model scored: <strong>0.57296</strong>. This is worse than the Lookup-based solution. This is testimony to our observations from EDA about the large variances in product sales data. When 'mean' performs better than a model looking for patterns it is a strong indication of high variance data.</p>
+<p>A similar model with 5-Lag features should perform better than the 3-Lag one since it has more historical data to train on. We will have fewer samples to train on since only Weeks 5 and 6 will have all the 5 lag features. Even so we will have about 20 million samples, which is quite a handful.</p>
+<p>Before we try-out the 5-lag feature model let's find out if we can engineer some features from the product table.</p>
+<h3 id="More-Feature-Engineering">More Feature Engineering<a class="anchor-link" href="#More-Feature-Engineering">¶</a></h3><p>Description of products has a lot more information than just their names. Following is an example.</p>
+<pre><code>                                   41,Bimbollos Ext sAjonjoli 6p 480g BIM 41
+
+</code></pre>
+<table class="table table-hover table-striped">
+<thead><tr>
+<th style="text-align:left">41</th>
+<th>Bimbollos Ext sAjonjoli</th>
+<th style="text-align:left">6p</th>
+<th style="text-align:left">480g</th>
+<th style="text-align:left">BIM</th>
+<th style="text-align:left">41</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">id</td>
+<td>Name</td>
+<td style="text-align:left">Pieces</td>
+<td style="text-align:left">Weight</td>
+<td style="text-align:left">Brand</td>
+<td style="text-align:left">id</td>
+</tr>
+</tbody>
+</table>
+<p>The low hanging fruits among these are pieces and weights since they can be easily converted to numerics, are continuous variables and may turn out to be good predictors. Of the top five selling products three of them have 4 or 6 pieces and are 105g or 125g. The fourth one has 2 pieces and weighs 55g. This may be an indication that products with fewer pieces and lower weights sell more than others. So, let's add pieces and weights as two more features.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [140]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">add_product_features</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">X_data</span>
+    
+    <span class="c"># Get product table into memory</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../input/producto_tabla.csv'</span><span class="p">)</span>
+
+    <span class="c"># Extract Weight and Pieces data from product table</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">NombreProducto</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s">'(\d+)(Kg|g)'</span><span class="p">)</span>
+    <span class="n">products</span><span class="p">[</span><span class="s">'Weight'</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">'float'</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s">'Kg'</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span> <span class="s">'g'</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">products</span><span class="p">[</span><span class="s">'Pieces'</span><span class="p">]</span> <span class="o">=</span>  <span class="n">products</span><span class="o">.</span><span class="n">NombreProducto</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s">'(\d+)p '</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">'float'</span><span class="p">)</span>
+
+    <span class="c"># Add Weight and Pieces features to the feature set</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">products</span><span class="p">[[</span><span class="s">'Producto_ID'</span><span class="p">,</span> <span class="s">'Weight'</span><span class="p">,</span> <span class="s">'Pieces'</span><span class="p">]],</span> <span class="n">how</span><span class="o">=</span><span class="s">'left'</span><span class="p">,</span> 
+                      <span class="n">left_on</span> <span class="o">=</span> <span class="s">'Product_id'</span><span class="p">,</span> <span class="n">right_on</span> <span class="o">=</span> <span class="s">'Producto_ID'</span><span class="p">)</span>
+    <span class="n">X_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s">'Producto_ID'</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">X_data</span><span class="o">.</span><span class="n">Pieces</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">X_data</span><span class="o">.</span><span class="n">Weight</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c"># Add Weight per Piece as an additional feature</span>
+    <span class="n">X_data</span><span class="p">[</span><span class="s">'WtPerPc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_data</span><span class="o">.</span><span class="n">Weight</span> <span class="o">/</span> <span class="n">X_data</span><span class="o">.</span><span class="n">Pieces</span>
+    
+    <span class="c"># Rearrange columns</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">X_data</span><span class="p">[[</span><span class="s">'Week'</span><span class="p">,</span> <span class="s">'Product_id'</span><span class="p">,</span> <span class="s">'Client_id'</span><span class="p">,</span> <span class="s">'Agency_id'</span><span class="p">,</span> <span class="s">'Route_id'</span><span class="p">,</span> 
+                     <span class="s">'Channel_id'</span><span class="p">,</span> <span class="s">'Lag1'</span><span class="p">,</span> <span class="s">'Lag2'</span><span class="p">,</span> <span class="s">'Lag3'</span><span class="p">,</span> <span class="s">'Lag4'</span><span class="p">,</span> <span class="s">'Lag5'</span><span class="p">,</span> 
+                     <span class="s">'Weight'</span><span class="p">,</span> <span class="s">'Pieces'</span><span class="p">,</span> <span class="s">'WtPerPc'</span><span class="p">,</span> <span class="s">'Adj_demand'</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Five-Lag-Solution">The Five Lag Solution<a class="anchor-link" href="#The-Five-Lag-Solution">¶</a></h3><table class="table table-hover table-striped">
+<thead><tr>
+<th style="text-align:left"></th>
+<th>Lag-1</th>
+<th>Lag-2</th>
+<th>Lag-3</th>
+<th>Lag-4</th>
+<th>Lag-5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Week 5 transactions</td>
+<td>Week-4 demand</td>
+<td>Week-3 demand</td>
+<td>Week-2 demand</td>
+<td>Week-1 demand</td>
+<td>Week-0 demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 6 transactions</td>
+<td>Week-5 demand</td>
+<td>Week-4 demand</td>
+<td>Week-3 demand</td>
+<td>Week-2 demand</td>
+<td>Week-1 demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 7 transactions</td>
+<td>Week-6 demand</td>
+<td>Week-5 demand</td>
+<td>Week-4 demand</td>
+<td>Week-3 demand</td>
+<td>Week-2 demand</td>
+</tr>
+<tr>
+<td style="text-align:left">Week 8 transactions</td>
+<td>Week-7 Preds</td>
+<td>Week-6 demand</td>
+<td>Week-5 demand</td>
+<td>Week-4 demand</td>
+<td>Week-3 demand</td>
+</tr>
+</tbody>
+</table>
+<p>We will now recreate the feature matrix from initial preprocessed data by creating the five lag features and product features (pieces and weight).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Let's make space for the new data by deleting some variables.</span>
+<span class="k">del</span> <span class="n">X_data</span> <span class="p">,</span> <span class="n">client_prod_dem</span><span class="p">,</span> <span class="n">predict_mean_dem</span><span class="p">,</span> <span class="n">prod_mean_dem</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">get_preprocessed_data</span><span class="p">()</span>
+<span class="n">X_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c"># Add lag features</span>
+<span class="n">lag_depth</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">add_lag_features</span><span class="p">(</span><span class="n">lag_depth</span><span class="p">)</span>
+
+<span class="c"># Add product features</span>
+<span class="n">add_product_features</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'X_data.shape: {0}</span><span class="se">\n</span><span class="s">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="n">X_data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Added Lag1 feature in 195 secs
+Added Lag2 feature in 179 secs
+Added Lag3 feature in 193 secs
+Added Lag4 feature in 204 secs</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [149]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">xgbRegr</span> <span class="o">=</span> <span class="n">train_XGBRegr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model trained in 62m:42s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">subm_df</span> <span class="o">=</span> <span class="n">predict_demands</span><span class="p">(</span><span class="n">xgbRegr</span><span class="p">)</span>
+<span class="n">subm_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'Lag5_with_prod_feats_blog.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This model scored: <strong>0.50499</strong>. A much better score compared to three lag model.</p>
+<p>My final submission to Kaggle was the average of results from the three solutions: Statistical solution, XGBRegressor solution with three Lag features and XGBRegressor solution with five Lag features. And, it scored 0.46362 on the Public Leader Board and 0.48378 on the Private Leader Board. <strong>Averaging results from multiple well-constructed models generally improves the score a notch. </strong></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary_1">Summary<a class="anchor-link" href="#Summary">¶</a></h2><p>That was a lot of code for one post. Excuse me for that. I didn't want to create a third post.</p>
+<p>In this two-post series we understood the business problem behind the competition and went through <a href="/2016/09/19/the-data-science-process-illustrated-part-1/">the Data Science Process</a> to solve it.</p>
+<p>After collecting and preprocessing the data we did a comprehensive <a href="/2016/09/25/groupo-bimbo-demand-prediction-part1/">Exploratory Data Analysis</a> and made some interesting observations about the data.</p>
+<p>Having understood the data well we implemented a very simple solution that gave us a good baseline score. We then did some Feature Engineering and implemented a second solution using XGBoost that was based on historical weekly product sales figures and product attributes.</p>
+<p>Due to large variance in product sales data we saw that the first Machine Learning solution couldn't perform a lot better than the simple mean-based solution. But adding more lag features and product features resulted in a better scoring model.</p>
+<hr>
+<p>I hope you enjoyed reading the post as much as I did writing it. I welcome you to read my other posts in the 'Kaggle Series', where I share my solutions to other competitions that I participated in. Following are the links:</p>
+<ul>
+<li><a href="/2016/09/22/talkingdata-user-demographics-predictions-part1/">TalkingData Mobile User Demographics - Part1</a></li>
+<li><a href="/2016/09/19/the-data-science-process-illustrated-part-1/">The Data Science Process - Part1</a></li>
+</ul>
+<p>The second link is to a post where I describe my perspective of the Data Science Process. I am sure you will find it interesting. I have used my solution to another Kaggle competition (<strong>RedHat Business Value Prediction</strong>) as a case study to describe the process.</p>
+<p>Thank you for visiting.</p>
+</hr></div>
+</div>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+                </div>
+                <footer class="text-right">
+                    <p>- Vinay Huddar</p>
+                </footer>
+            </div>
+    <div id="scrollspy">
+        <div class="col-lg-3 nav nav-stacked hidden-xs hidden-sm" data-spy="affix" data-offset-top="135">
+            <div id="toc"><ul><li><a class="toc-href" href="#" title="Groupo Bimbo Demand Prediction - Part2">Groupo Bimbo Demand Prediction - Part2</a><ul><li><a class="toc-href" href="#Model-Building" title="Model Building&para;">Model Building&para;</a><ul><li><a class="toc-href" href="#Statistical-Solution" title="Statistical Solution&para;">Statistical Solution&para;</a><ul><li><a class="toc-href" href="#A-simple-solution" title="A simple solution&para;">A simple solution&para;</a></li><li><a class="toc-href" href="#A-drawback" title="A drawback&para;">A drawback&para;</a></li><li><a class="toc-href" href="#A-challenge" title="A challenge&para;">A challenge&para;</a></li><li><a class="toc-href" href="#A-way-of-addressing-the-challenge" title="A way of addressing the challenge&para;">A way of addressing the challenge&para;</a></li><li><a class="toc-href" href="#How-well-does-the-algorithm-score?" title="How well does the algorithm score?&para;">How well does the algorithm score?&para;</a></li></ul></li><li><a class="toc-href" href="#Machine-Learning-Solution_1" title="Machine Learning Solution&para;">Machine Learning Solution&para;</a><ul><li><a class="toc-href" href="#Problem-with-the-previous-solution" title="Problem with the previous solution&para;">Problem with the previous solution&para;</a></li><li><a class="toc-href" href="#An-obvious-solution" title="An obvious solution&para;">An obvious solution&para;</a></li><li><a class="toc-href" href="#Why-the-obvious-solution-may-not-work" title="Why the obvious solution may not work&para;">Why the obvious solution may not work&para;</a></li><li><a class="toc-href" href="#An-alternative-solution-that-works" title="An alternative solution that works&para;">An alternative solution that works&para;</a></li><li><a class="toc-href" href="#An-implementation-challenge-in-the-alternative-solution" title="An implementation challenge in the alternative solution&para;">An implementation challenge in the alternative solution&para;</a></li><li><a class="toc-href" href="#A-way-to-overcome-the-implementation-challenge" title="A way to overcome the implementation challenge&para;">A way to overcome the implementation challenge&para;</a></li></ul></li><li><a class="toc-href" href="#Train-XGBoost-on-Lag-features_1" title="Train XGBoost on Lag features&para;">Train XGBoost on Lag features&para;</a></li><li><a class="toc-href" href="#More-Feature-Engineering" title="More Feature Engineering&para;">More Feature Engineering&para;</a></li><li><a class="toc-href" href="#The-Five-Lag-Solution" title="The Five Lag Solution&para;">The Five Lag Solution&para;</a></li></ul></li><li><a class="toc-href" href="#Summary_1" title="Summary&para;">Summary&para;</a></li></ul></li></ul></div>
+        </div>
+    </div>
+        </div>
+    </article>
+</section>
+<footer>
+    <hr>
+    <div class="row">
+        <div class="col-lg-9 text-center">
+            <p><small>
+                Built by <a href="http://docs.getpelican.com/en/latest">Pelican</a> / <a href="https://github.com/ingwinlu/pelican-twitchy">pelican-twitchy</a>
+                &middot;                    &copy; 2016 Vinay Huddar
+            </small></p>
+        </div>
+    </div>
+</footer>            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery Version 1.11.2 -->
+    <script src="/theme/js/jquery-1.11.2.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+    <!-- twitchy Script -->
+    <script src="/theme/js/pelican_twitchy.min.js"></script>
+
+</body>
+</html>

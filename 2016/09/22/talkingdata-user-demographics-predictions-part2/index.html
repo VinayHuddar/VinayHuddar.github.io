@@ -1,0 +1,1232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="Vinay Huddar" />
+        <meta name="keywords" content="Kaggle,LogisticRegression,XGBoost" />
+        <meta name="description" content="This post is the second and final part of TalkingData Mobile User Demographics two-post series. The first part can be found here: TalkingData Mobile User Demographics - Part 1. In this post I will describe the following three models and compare their performances based on the evaluation metric that was used in the competition for scoring." />
+
+
+    <title>TalkingData Mobile User Demographics - Part 2 - My Data Science Lab</title>
+
+        <link rel="stylesheet" href="/theme/css/bootstrap.sandstone.min.css" type="text/css"/>
+
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/theme/css/pygments/colorful.css" rel="stylesheet" />
+    
+    <link href="/theme/css/pelican-twitchy.min.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Feeds -->
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="My Data Science Lab ATOM Feed" />
+</head>
+<body data-spy="scroll" data-target="#scrollspy">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper-small" class="twitchy-background">
+            <ul id="accordion-small" class="sidebar-nav sidebar-nav-small">
+                <li>
+        <a href="" title="My Data Science Lab" class="collapsed">
+            <span class="glyphicon glyphicon-home"></span>
+        </a>
+    </li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="/archives.html" title="Recent Articles" class="collapsed">
+            <span class="glyphicon glyphicon-th-list"></span>
+        </a>
+    </li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion-small" href="#collapse-social-small" title="Social" class="collapsed">
+                        <i class="fa fa-users padding-small"></i>
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social-small" class="collapse ">
+                    <li>
+                        <a href="mailto:huddar.vinay@gmail.com" title="EMAIL"><i class="fa fa-envelope-square fa-lg padding-small"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/VinayHuddar" title="GitHub"><i class="fa fa-github-square fa-lg padding-small"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/vinay-huddar" title="LinkedIn"><i class="fa fa-linkedin-square fa-lg padding-small"></i></a>
+                    </li>
+                </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="#" title="Back to top" class="collapsed">
+            <span class="fa fa-arrow-up"></span>
+        </a>
+    </li>
+            </ul>
+        </div>
+        <div id="sidebar-wrapper" class="twitchy-background">
+            <ul id="accordion" class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                            <span class="glyphicon glyphicon-home padding-small"></span>
+                            My Data Science Lab
+                    </a>
+                </li>
+                    <li class="nav-divider"></li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-latest">
+                            <span class="glyphicon glyphicon-th-list padding-small"></span>
+                            Recent Articles
+                        </a>
+                    </li>
+                    <li class="panel anti-panel"><ul id="collapse-latest" class="sidebar_submenu collapse in">
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/28/bike-rentals-prediction/" title="Predicting Bike Rentals">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Predicting Bike Rentals
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/27/groupo-bimbo-demand-prediction-part2/" title="Groupo Bimbo Demand Prediction - Part2">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Groupo Bimbo Demand Prediction - Part2
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/25/groupo-bimbo-demand-prediction-part1/" title="Groupo Bimbo Demand Prediction - Part1">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Groupo Bimbo Demand Prediction - Part1
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/2016/09/22/talkingdata-user-demographics-predictions-part1/" title="TalkingData Mobile User Demographics - Part 1">
+                                <i class="fa fa-file-text padding-small"></i>
+                                TalkingData Mobile User Demographics - Part 1
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a class="hide-overflow" href="/2016/09/22/talkingdata-user-demographics-predictions-part2/" title="TalkingData Mobile User Demographics - Part 2">
+                                <i class="fa fa-file-text padding-small"></i>
+                                TalkingData Mobile User Demographics - Part 2
+                            </a>
+                        </li>
+                    <li>
+                        <a href="/archives.html">
+                            <i class="fa fa-arrow-right padding-small"></i>
+                            More
+                        </a>
+                    </li>
+                    </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-social">
+                        <i class="fa fa-users padding-small"></i>
+                        Contact
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="mailto:huddar.vinay@gmail.com" title="EMAIL">
+                            <i class="fa fa-envelope-square fa-lg padding-small"></i>
+                            EMAIL
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/VinayHuddar" title="GitHub">
+                            <i class="fa fa-github-square fa-lg padding-small"></i>
+                            GitHub
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/vinay-huddar" title="LinkedIn">
+                            <i class="fa fa-linkedin-square fa-lg padding-small"></i>
+                            LinkedIn
+                        </a>
+                    </li>
+                </ul></li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-pages">
+                        <i class="fa fa-folder-open padding-small"></i>
+                        Pages
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-pages" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="/pages/about.html">
+                            <i class="fa fa-file-text padding-small"></i>
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/my-data-science-lab.html">
+                            <i class="fa fa-file-text padding-small"></i>
+                            My Data Science Lab
+                        </a>
+                    </li>
+                </ul></li>
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-categories">
+                        <i class="fa fa-folder-open padding-small"></i>
+                        Categories
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-categories" class="sidebar_submenu collapse ">
+                    <li >
+                        <a href="/category/data-science-process.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Data Science Process
+                            <span class="badge pull-right categorybadge">2</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/category/kaggle-series.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Kaggle Series
+                            <span class="badge pull-right categorybadge">4</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/category/playground.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            Playground
+                            <span class="badge pull-right categorybadge">1</span>
+                        </a>
+                    </li>
+                </ul></li>
+                
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- open/close sidebar -->
+        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+            <span id="right-arrow" class="glyphicon glyphicon-chevron-right"  title="expand sidebar"></span>
+            <span id="left-arrow" class="glyphicon glyphicon-chevron-left" title="minimize sidebar"></span>
+        </a>
+       <!-- /open/close sidebar -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+<section id="content">
+    <article>
+        <div class="row">
+            <div class="col-lg-9">
+                <header class="page-header">
+                    <h1>
+                        <a href="/2016/09/22/talkingdata-user-demographics-predictions-part2/"
+                           rel="bookmark"
+                           title="Permalink to TalkingData Mobile User Demographics - Part 2">
+                            TalkingData Mobile User Demographics - Part 2
+                        </a>
+                        <small>
+<div class="post-info">
+    <div class="publish-info-block">
+        <small>
+            <span class="published">
+                <i class="fa fa-calendar padding-small"></i><time datetime="2016-09-22T15:00:00+05:30"> Thu 22 September 2016</time>
+            </span>
+            <span class="category">
+                <i class="fa fa-folder-open padding-small"></i><a href="/category/kaggle-series.html">Kaggle Series</a>
+            </span>
+            <span class="tags">
+                <i class="fa fa-tags padding-small"></i>
+                <a href="/tag/kaggle.html">Kaggle</a> /                 <a href="/tag/logisticregression.html">LogisticRegression</a> /                 <a href="/tag/xgboost.html">XGBoost</a>            </span>
+        </small>
+    </div>
+</div><!-- /.post-info -->                        </small>
+                    </h1>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="entry-content">
+                    <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/.ansibold{font-weight:700}.ansiblack{}.ansired{color:#8b0000}.ansigreen{6400}.ansiyellow{color:#c4a000}.ansiblue{8b}.ansipurple{color:#9400d3}.ansicyan{color:#4682b4}.ansigray{color:gray}.ansibgblack{background-}.ansibgred{background-color:red}.ansibggreen{background-color:green}.ansibgyellow{background-color:#ff0}.ansibgblue{background-f}.ansibgpurple{background-color:#ff00ff}.ansibgcyan{background-ff}.ansibggray{background-color:gray}div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;border-radius:2px;box-sizing:border-box;-moz-box-sizing:border-box;border-width:thin;border-style:solid;width:100%;padding:5px;margin:0;outline:0}div.cell.selected{border-color:#ababab}@media print{div.cell.selected{border-color:transparent}}.edit_mode div.cell.selected{border-color:green}.prompt{min-width:14ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}@-moz-document url-prefix(){div.inner_cell{overflow-x:hidden}}div.input_area{border:1px solid #cfcfcf;border-radius:2px;background:#f7f7f7;line-height:1.21429em}div.prompt:empty{padding-top:0;padding-bottom:0}div.unrecognized_cell{padding:5px 5px 5px 0;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.unrecognized_cell .inner_cell{border-radius:2px;padding:5px;font-weight:700;color:red;border:1px solid #cfcfcf;background:#eaeaea}div.unrecognized_cell .inner_cell a,div.unrecognized_cell .inner_cell a:hover{color:inherit;text-decoration:none}@media (max-width:540px){.prompt{text-align:left}div.unrecognized_cell>div.prompt{display:none}}div.code_cell{}div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.input{-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.input_prompt{color:navy;border-top:1px solid transparent}div.input_area>div.highlight{margin:.4em;border:none;padding:0;background-color:transparent}div.input_area>div.highlight>pre{margin:0;border:none;padding:0;background-color:transparent}.CodeMirror{line-height:1.21429em;font-size:14px;height:auto;background:0 0}.CodeMirror-scroll{overflow-y:hidden;overflow-x:auto}.CodeMirror-lines{padding:.4em}.CodeMirror-linenumber{padding:0 8px 0 4px}.CodeMirror-gutters{border-bottom-left-radius:2px;border-top-left-radius:2px}.CodeMirror pre{padding:0;border:0;border-radius:0}.highlight-base,.highlight-variable{}.highlight-variable-2{color:#1a1a1a}.highlight-variable-3{color:#333}.highlight-string{color:#BA2121}.highlight-comment{color:#408080;font-style:italic}.highlight-number{80}.highlight-atom{color:#88F}.highlight-keyword{color:green;font-weight:700}.highlight-builtin{color:green}.highlight-error{color:red}.highlight-operator{color:#A2F;font-weight:700}.highlight-meta{color:#A2F}.highlight-def{f}.highlight-string-2{color:#f50}.highlight-qualifier{color:#555}.highlight-bracket{color:#997}.highlight-tag{color:#170}.highlight-attribute{c}.highlight-header{f}.highlight-quote{90}.highlight-link{c}.cm-s-ipython span.cm-keyword{color:green;font-weight:700}.cm-s-ipython span.cm-atom{color:#88F}.cm-s-ipython span.cm-number{80}.cm-s-ipython span.cm-def{f}.cm-s-ipython span.cm-variable{}.cm-s-ipython span.cm-operator{color:#A2F;font-weight:700}.cm-s-ipython span.cm-variable-2{color:#1a1a1a}.cm-s-ipython span.cm-variable-3{color:#333}.cm-s-ipython span.cm-comment{color:#408080;font-style:italic}.cm-s-ipython span.cm-string{color:#BA2121}.cm-s-ipython span.cm-string-2{color:#f50}.cm-s-ipython span.cm-meta{color:#A2F}.cm-s-ipython span.cm-qualifier{color:#555}.cm-s-ipython span.cm-builtin{color:green}.cm-s-ipython span.cm-bracket{color:#997}.cm-s-ipython span.cm-tag{color:#170}.cm-s-ipython span.cm-attribute{c}.cm-s-ipython span.cm-header{f}.cm-s-ipython span.cm-quote{90}.cm-s-ipython span.cm-link{c}.cm-s-ipython span.cm-error{color:red}.cm-s-ipython span.cm-tab{background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=')right no-repeat}div.output_wrapper{display:-webkit-box;-webkit-box-align:stretch;display:-moz-box;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;z-index:1}div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:2px;-webkit-box-shadow:inset 0 2px 8px rgba(0,0,0,.8);box-shadow:inset 0 2px 8px rgba(0,0,0,.8);display:block}div.output_collapsed{margin:0;padding:0;display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.out_prompt_overlay{height:100%;padding:0 .4em;position:absolute;border-radius:2px}div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000;box-shadow:inset 0 0 1px #000;background:rgba(240,240,240,.5)}div.output_prompt{color:#8b0000}div.output_area{padding:0;page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.output_area .MathJax_Display{text-align:left!important}div.output_area div.output_area img,div.output_area svg{max-width:100%;height:auto}div.output_area img.unconfined,div.output_area svg.unconfined{max-width:none}.output{display:-webkit-box;-webkit-box-orient:vertical;display:-moz-box;-moz-box-orient:vertical;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}@media (max-width:540px){div.output_area{-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.output_area pre{margin:0;padding:0;border:0;vertical-align:baseline;background-color:transparent;border-radius:0}div.output_subarea{overflow-x:auto;padding:.4em;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1;max-width:calc(100% - 14ex)}div.output_text{text-align:left;line-height:1.21429em}div.output_stderr{background:#fdd}div.output_latex{text-align:left}div.output_javascript:empty{padding:0}.js-error{color:#8b0000}div.raw_input_container{font-family:monospace;padding-top:5px}span.raw_input_prompt{}input.raw_input{font-family:inherit;font-size:inherit;color:inherit;width:auto;vertical-align:baseline;padding:0 .25em;margin:0 .25em}input.raw_input:focus{box-shadow:none}p.p-space{margin-bottom:10px}div.output_unrecognized{padding:5px;font-weight:700;color:red}div.output_unrecognized a,div.output_unrecognized a:hover{color:inherit;text-decoration:none}.rendered_html{}.rendered_html :link,.rendered_html :visited,.rendered_html h1:first-child{margin-top:.538em}.rendered_html h2:first-child{margin-top:.636em}.rendered_html h3:first-child{margin-top:.777em}.rendered_html h4:first-child,.rendered_html h5:first-child,.rendered_html h6:first-child{margin-top:1em}.rendered_html *+ol,.rendered_html *+ul{margin-top:1em}.rendered_html *+table{margin-top:1em}.rendered_html *+p{margin-top:1em}.rendered_html *+img{margin-top:1em}div.text_cell{display:-webkit-box;-webkit-box-orient:horizontal;display:-moz-box;-moz-box-orient:horizontal;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.text_cell>div.prompt{display:none}}div.text_cell_render{outline:0;resize:none;width:inherit;border-style:none;padding:.5em .5em .5em .4em;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}a.anchor-link:link{text-decoration:none;padding:0 20px;visibility:hidden}h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible}.text_cell.rendered .input_area{display:none}.text_cell.rendered .text_cell.unrendered .text_cell_render{display:none}.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6{font-weight:700;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.cm-header-1{font-size:185.7%}.cm-header-2{font-size:157.1%}.cm-header-3{font-size:128.6%}.cm-header-4{font-size:110%}.cm-header-5,.cm-header-6{font-size:100%;font-style:italic}</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This post is the second and final part of TalkingData Mobile User Demographics two-post series. The first part can be found here: <a href="/2016/09/22/talkingdata-user-demographics-predictions-part1/">TalkingData Mobile User Demographics - Part 1</a>.</p>
+<p>In this post I will describe the following three models and compare their performances based on the evaluation metric that was used in the competition for scoring.</p>
+<ol>
+<li>Multi-Class LogisticRegression Classifier</li>
+<li>Ensemble of XGBoost models</li>
+<li>A Neural Network solution</li>
+</ol>
+<p>There is some ground work to be done before we can start with the models. We cannot feed the data that we downloaded from the competition website directly into the models. Neither can we use the version of preprocessed data that we prepared in the previous post. Because, both are not 'encoded' yet.</p>
+<p>The data provided is categorical in nature: gender, age-group, phone-brand, device-model, app categories are all categorical data. And, the way to learn from categorical data is by converting them to their equivalent one-hot-encoded features and passing them through one or more of the afore mentioned models.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span><span class="p">,</span> <span class="n">hstack</span>
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="kn">as</span> <span class="nn">xgb</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Get CSVs into memory and perform basic preprocessing</span>
+<span class="n">demo_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../Data/gender_age_train.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s">'device_id'</span><span class="p">)</span>
+<span class="n">demo_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../Data/gender_age_test.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s">'device_id'</span><span class="p">)</span>
+<span class="n">brand_model</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../Data/phone_brand_device_model.csv'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will now encode the following categorical features and create one-hot-encoded features from them.</p>
+<ol>
+<li>Phone Brands</li>
+<li>Device Models</li>
+<li>Apps</li>
+<li>App Categories</li>
+</ol>
+<p>The one-hot-encoded feature matrix creation and the logistic regression part of the solution is inspired by Dune Dweller's solution.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Phone-Brands-and-Device-Models">Phone Brands and Device Models<a class="anchor-link" href="#Phone-Brands-and-Device-Models">¶</a></h3><p>We will do the following for creating one-hot-encoded vectors for phone brands and device models.</p>
+<ul>
+<li>Use sklearn's LabelEncoder to encode the original feature</li>
+<li>Merge the encoded feature with demographic data</li>
+<li>Use sklearn's OneHotEncoder to create the one-hot-encoded vectors</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [48]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Remove duplicate devices from the phone table</span>
+<span class="n">brand_model</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s">'device_id'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">brand_model</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="s">'device_id'</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c"># Label-encode brands and models</span>
+<span class="n">brand_model</span><span class="p">[</span><span class="s">'brand_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">brand_model</span><span class="o">.</span><span class="n">phone_brand</span><span class="p">)</span>
+<span class="n">brand_model</span><span class="p">[</span><span class="s">'model_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">brand_model</span><span class="o">.</span><span class="n">phone_brand</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">brand_model</span><span class="o">.</span><span class="n">device_model</span><span class="p">)</span>
+<span class="n">brand_model</span><span class="p">[</span><span class="s">'model_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">brand_model</span><span class="o">.</span><span class="n">model_enc</span><span class="p">)</span>
+
+<span class="c"># Merge encoded brands and models to demo_train and demo_test</span>
+<span class="n">demo_train</span><span class="p">[</span><span class="s">'brand_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">brand_model</span><span class="o">.</span><span class="n">brand_enc</span>
+<span class="n">demo_train</span><span class="p">[</span><span class="s">'model_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">brand_model</span><span class="o">.</span><span class="n">model_enc</span>
+<span class="n">demo_test</span><span class="p">[</span><span class="s">'brand_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">brand_model</span><span class="o">.</span><span class="n">brand_enc</span>
+<span class="n">demo_test</span><span class="p">[</span><span class="s">'model_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">brand_model</span><span class="o">.</span><span class="n">model_enc</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'demo_train'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">demo_train</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">demo_test'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">demo_test</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>demo_train
+                     gender  age   group  brand_enc  model_enc
+device_id                                                     
+-8076087639492063270      M   35  M32-38         51        843
+-2897161552818060146      M   35  M32-38         51        843
+-8260683887967679142      M   35  M32-38         51        843
+
+demo_test
+                      brand_enc  model_enc
+device_id                                 
+ 1002079943728939269         51        857
+-1547860181818787117         51        860
+ 7374582448058474277         31        717
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [151]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># One-hot-encode brand and model features</span>
+<span class="n">demo_data</span> <span class="o">=</span> <span class="n">demo_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">demo_test</span><span class="p">)</span>
+<span class="n">enc</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s">'ignore'</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">demo_data</span><span class="p">[[</span><span class="s">'brand_enc'</span><span class="p">,</span> <span class="s">'model_enc'</span><span class="p">]])</span>
+
+<span class="n">Xtrain_brand_model_csr</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">demo_train</span><span class="p">[[</span><span class="s">'brand_enc'</span><span class="p">,</span> <span class="s">'model_enc'</span><span class="p">]])</span>
+<span class="n">Xtest_brand_model_csr</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">demo_test</span><span class="p">[[</span><span class="s">'brand_enc'</span><span class="p">,</span> <span class="s">'model_enc'</span><span class="p">]])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape of one-hot-encoded brands of train data: {0}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Xtrain_brand_model_csr</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape of one-hot-encoded brands of test data: {0}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Xtest_brand_model_csr</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Shape of one-hot-encoded brands of train data: (74645, 1798)
+Shape of one-hot-encoded brands of test data: (112071, 1798)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [125]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">events</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../Data/events.csv'</span><span class="p">,</span> <span class="n">index_col</span> <span class="o">=</span> <span class="s">'event_id'</span><span class="p">,</span> <span class="n">parse_dates</span> <span class="o">=</span> <span class="p">[</span><span class="s">'timestamp'</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'events.shape: {0}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="n">app_events</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../Data/app_events.csv'</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="s">'event_id'</span><span class="p">,</span> <span class="s">'app_id'</span><span class="p">,</span> <span class="s">'is_active'</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="p">{</span><span class="s">'event_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="s">'app_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="s">'is_active'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">})</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">app_events.shape: {0}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">app_events</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">app_events</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>events.shape: (3252950, 4)
+                    device_id           timestamp  longitude  latitude
+event_id                                                              
+1           29182687948017175 2016-05-01 00:55:25     121.38     31.24
+2        -6401643145415154744 2016-05-01 00:54:12     103.65     30.97
+3        -4833982096941402721 2016-05-01 00:08:05     106.60     29.70
+4        -6815121365017318426 2016-05-01 00:06:40     104.27     23.28
+5        -5373797595892518570 2016-05-01 00:07:18     115.88     28.66
+
+app_events.shape: (32473067, 4)
+   event_id               app_id  is_active    app
+0         2  5927333115845830913          1  15408
+1         2 -5720078949152207372          0   3384
+2         2 -1633887856876571208          0   7620
+3         2  -653184325010919369          1   8902
+4         2  8693964245073640147          1  18686
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [130]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">app_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">app_events</span><span class="o">.</span><span class="n">app_id</span><span class="p">)</span>
+<span class="n">app_events</span><span class="p">[</span><span class="s">'app_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">app_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">app_events</span><span class="o">.</span><span class="n">app_id</span><span class="p">)</span>
+<span class="n">napps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">app_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">device_apps</span> <span class="o">=</span> <span class="n">events</span><span class="p">[[</span><span class="s">'device_id'</span><span class="p">]]</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">app_events</span><span class="p">[[</span><span class="s">'event_id'</span><span class="p">,</span> <span class="s">'app_enc'</span><span class="p">]],</span> <span class="n">how</span> <span class="o">=</span> <span class="s">'left'</span><span class="p">,</span> <span class="n">left_index</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">right_on</span> <span class="o">=</span> <span class="s">'event_id'</span><span class="p">)</span>
+<span class="n">device_apps</span> <span class="o">=</span> <span class="n">device_apps</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">'device_id'</span><span class="p">,</span> <span class="s">'app_enc'</span><span class="p">])</span><span class="o">.</span><span class="n">app_enc</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s">'size'</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">device_apps</span> <span class="o">=</span> <span class="n">device_apps</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s">'device_id'</span><span class="p">])[[</span><span class="s">'app_enc'</span><span class="p">]]</span>
+
+<span class="c"># These row ids will be required for creating csr_matrices</span>
+<span class="n">demo_train</span><span class="p">[</span><span class="s">'train_row'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">demo_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">demo_test</span><span class="p">[</span><span class="s">'test_row'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">demo_test</span><span class="p">))</span>
+<span class="n">device_apps</span><span class="p">[</span><span class="s">'train_row'</span><span class="p">]</span> <span class="o">=</span> <span class="n">demo_train</span><span class="p">[</span><span class="s">'train_row'</span><span class="p">]</span>
+<span class="n">device_apps</span><span class="p">[</span><span class="s">'test_row'</span><span class="p">]</span> <span class="o">=</span> <span class="n">demo_test</span><span class="p">[</span><span class="s">'test_row'</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">device_apps</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">device_apps</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(2369025, 3)
+</pre>
+</div>
+</div>
+<div class="output_area"><div class="prompt output_prompt">Out[130]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="table table-hover table-striped dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>app_enc</th>
+<th>train_row</th>
+<th>test_row</th>
+</tr>
+<tr>
+<th>device_id</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>-9222956879900151005</th>
+<td>548</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>1096</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>1248</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>1545</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>1664</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we are ready to create one hot encoded feature matrix for the 'app' feature. We will do this for both train and test.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [141]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">d</span> <span class="o">=</span> <span class="n">device_apps</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s">'train_row'</span><span class="p">])</span>
+<span class="n">Xtrain_app_csr</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">train_row</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">app_enc</span><span class="p">)),</span> 
+                      <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">demo_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">napps</span><span class="p">))</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">device_apps</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s">'test_row'</span><span class="p">])</span>
+<span class="n">Xtest_app_csr</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">test_row</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">app_enc</span><span class="p">)),</span> 
+                      <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">demo_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">napps</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Apps data: train shape {}, test shape {}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Xtrain_app_csr</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Xtest_app_csr</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Apps data: train shape (74645, 19237), test shape (112071, 19237)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's apply the same set of transformations for creating one hot encoded feature matrix for the 'label' feature.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [142]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">app_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'../Data/app_labels.csv'</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="p">{</span><span class="s">'app_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="s">'label_id'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">})</span>
+<span class="n">app_labels</span> <span class="o">=</span> <span class="n">app_labels</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">app_labels</span><span class="o">.</span><span class="n">app_id</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">app_events</span><span class="o">.</span><span class="n">app_id</span><span class="o">.</span><span class="n">unique</span><span class="p">())]</span>
+<span class="n">app_labels</span><span class="p">[</span><span class="s">'app_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">app_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">app_labels</span><span class="o">.</span><span class="n">app_id</span><span class="p">)</span>
+
+<span class="n">label_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">app_labels</span><span class="o">.</span><span class="n">label_id</span><span class="p">)</span>
+<span class="n">app_labels</span><span class="p">[</span><span class="s">'label_enc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">app_labels</span><span class="o">.</span><span class="n">label_id</span><span class="p">)</span>
+<span class="n">nlabels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+
+<span class="n">device_labels</span> <span class="o">=</span> <span class="n">device_apps</span><span class="p">[[</span><span class="s">'app_enc'</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">app_labels</span><span class="p">[[</span><span class="s">'app_enc'</span><span class="p">,</span> <span class="s">'label_enc'</span><span class="p">]])</span>
+<span class="n">device_labels</span> <span class="o">=</span> <span class="n">device_labels</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">'device_id'</span><span class="p">,</span><span class="s">'label_enc'</span><span class="p">])[</span><span class="s">'app_enc'</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s">'size'</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">device_labels</span> <span class="o">=</span> <span class="n">device_labels</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s">'device_id'</span><span class="p">)[[</span><span class="s">'label_enc'</span><span class="p">]]</span>
+<span class="n">device_labels</span><span class="p">[</span><span class="s">'train_row'</span><span class="p">]</span> <span class="o">=</span> <span class="n">demo_train</span><span class="p">[</span><span class="s">'train_row'</span><span class="p">]</span>
+<span class="n">device_labels</span><span class="p">[</span><span class="s">'test_row'</span><span class="p">]</span> <span class="o">=</span> <span class="n">demo_test</span><span class="p">[</span><span class="s">'test_row'</span><span class="p">]</span>
+
+<span class="n">device_labels</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[142]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="table table-hover table-striped dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>label_enc</th>
+<th>train_row</th>
+<th>test_row</th>
+</tr>
+<tr>
+<th>device_id</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>-9222956879900151005</th>
+<td>117</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>120</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>126</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>138</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>-9222956879900151005</th>
+<td>147</td>
+<td>21594</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [148]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">d</span> <span class="o">=</span> <span class="n">device_labels</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s">'train_row'</span><span class="p">])</span>
+<span class="n">Xtrain_label_csr</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">train_row</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">label_enc</span><span class="p">)),</span> 
+                      <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">demo_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">nlabels</span><span class="p">))</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">device_labels</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s">'test_row'</span><span class="p">])</span>
+<span class="n">Xtest_label_csr</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">test_row</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">label_enc</span><span class="p">)),</span> 
+                      <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">demo_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">nlabels</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Labels data: train shape {}, test shape {}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Xtrain_label_csr</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Xtest_label_csr</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Labels data: train shape (74645, 492), test shape (112071, 492)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We are now ready to concatenate all the one-hot-encoded features. This is the data that we will be feeding into the learning algorithms.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [152]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">Xtrain</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">((</span><span class="n">Xtrain_brand_model_csr</span><span class="p">,</span> <span class="n">Xtrain_app_csr</span><span class="p">,</span> <span class="n">Xtrain_label_csr</span><span class="p">),</span> <span class="n">format</span><span class="o">=</span><span class="s">'csr'</span><span class="p">)</span>
+<span class="n">Xtest</span> <span class="o">=</span>  <span class="n">hstack</span><span class="p">((</span><span class="n">Xtest_brand_model_csr</span><span class="p">,</span> <span class="n">Xtest_app_csr</span><span class="p">,</span> <span class="n">Xtest_label_csr</span><span class="p">),</span> <span class="n">format</span><span class="o">=</span><span class="s">'csr'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'All features: train shape {}, test shape {}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Xtrain</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Xtest</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>All features: train shape (74645, 21527), test shape (112071, 21527)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We are now ready for Model Selection and Tuning. Let's begin with a Linear Solution, which is invariably a Logistic Regression model. We will find the regularization value that gives the best score using cross validation and then predict on the test data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Logistic-Regression-Solution">Logistic Regression Solution<a class="anchor-link" href="#Logistic-Regression-Solution">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As I mentioned earlier, this solution is taken from Dune Dweller's script.</p>
+<p>The target, demo_train.group, is a categorical. Let's encode it similar to the way we did for the predictors.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [154]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">target_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">demo_train</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">target_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">demo_train</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
+<span class="n">nclasses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [165]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">kf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">nclasses</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">itrain</span><span class="p">,</span> <span class="n">itest</span> <span class="ow">in</span> <span class="n">kf</span><span class="p">:</span>
+        <span class="n">Xtr</span><span class="p">,</span> <span class="n">Xte</span> <span class="o">=</span> <span class="n">Xtrain</span><span class="p">[</span><span class="n">itrain</span><span class="p">,</span> <span class="p">:],</span> <span class="n">Xtrain</span><span class="p">[</span><span class="n">itest</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">ytr</span><span class="p">,</span> <span class="n">yte</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">itrain</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">itest</span><span class="p">]</span>
+        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+        <span class="n">pred</span><span class="p">[</span><span class="n">itest</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">Xte</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">log_loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [166]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">Cs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">C</span> <span class="ow">in</span> <span class="n">Cs</span><span class="p">:</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">Cs</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span><span class="s">'-o'</span><span class="p">);</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[2.3454585286199126, 2.2860489534757469, 2.2947290278037582, 2.4322723671037414]
+</pre>
+</div>
+</div>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_png output_subarea ">
+<img class="img-responsive" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYEAAAEECAYAAADOJIhPAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+AAALEgAACxIB0t1+/AAAIABJREFUeJzt3XmUVNW1x/HvBkUFokZNRLoNoMYVEyWIs5ikjJrJF+Bp
+4kMhBIhPV1RAEMEJaQMm+sQoDtFgBIJPRUWDIg+jEQs1CijS2oFuNUBQQVQCDoDK0Pv9cQopmh6q
+uqvq1vD7rFWLW/eee2s3F2r3Ge455u6IiEhpahV1ACIiEh0lARGREqYkICJSwpQERERKmJKAiEgJ
+UxIQESlhTSYBMys3szlmttjMqsxsSCNljzGzzWZ2Rp39rczsFTN7LBNBi4hIZuySQpktwHB3rzSz
+9sBCM3vS3WuSC5lZK+A64K/1XGMosATYs6UBi4hI5jRZE3D31e5emdheD1QDZfUUHQxMB95P3mlm
+5cBPgD+1OFoREcmotPoEzKwz0A2YX2d/R6C3u98BWJ3TbgIuBfRosohInkmlOQiARFPQdGBookaQ
+7GZgVD3nnA68l2hKirFzgkguqyQhIpImd2/wezUVKdUEzGwXQgK4x90frafI0cA0M1sO/Az4g5n1
+BHoAPc1sGXA/cLKZTW3oc9w90teYMWPy4nrpnNdU2eYeT2d/pv/e8uH+5cO9a6pMc47l6/0rxv97
+mb5/9e3LhFRrApOAJe4+oYEv74O2bZvZZGCmuz8GPAZckdj/PeASd+/fspCzJxaL5cX10jmvqbLN
+PZ7u/nyQydjy4d41VaY5x/L1/hXj/72myqR7LFv3zprKJmbWA3gWqCK06zvhi70T4O4+sU75ScDj
+7v5Inf3bkkDPBj7HM5XZJLcqKiqoqKiIOgxpJt2/wmVmeAubg5qsCbj734HWqV7Q3Qc1sH8uMDf1
+0KRQ5Otvl5Ia3b/S1mRNIFdUExARSU8magKaNkJEpIQpCYiIlDAlARGRArN8+Qr69bsmI9dSn4CI
+SAFZvnwFp512K0uXXgO0V5+AiEgpGT16SiIBtMvI9ZQEREQKyMqVtWQqAYCSgIhIQSkrawVsyNj1
+1CcgIlJAli9fQdeut7J+vfoERERKzvvvd2KPPQZz1lnjM3I91QRERApEbS0cfzxcdBH0768nhkVE
+SsrUqdCqFfTrl7lrqiYgIlIAPv4YvvEN+Mtf4Ljjwr5M1ASUBERECsCoUfDeezBlyvZ9SgIiIiXg
+zTfhhBOgqgoOOGD7fvUJiIiUgOHDYeTIHRNApqS80LyIiOTeE09ATQ1Mn56d66smICKSpzZtgosv
+hptugt12y85nKAmIiOSp226DLl3g9NOz9xlNJgEzKzezOWa22MyqzGxII2WPMbPNZnZGuueKiMh2
+770Hv/tdqAVYi7p+G9fk6CAz6wB0cPdKM2sPLAR6uXtNnXKtgKeAT4FJ7v5IqucmztfoIBGRhHPP
+hb32ghtvbLhMJkYHNdkx7O6rgdWJ7fVmVg2UAXW/yAcD04FjmnGuiIgkLFwIjz8Or7+e/c9Kq0/A
+zDoD3YD5dfZ3BHq7+x1AvVmpoXNFRGQ7dxgyBMaNCzWBbEt5iGiiOWc6MNTd19c5fDMwKrl4Gud+
+oaKi4ovtWCxGLBZLNTwRkaJw//3w2WcwcODOx+LxOPF4PKOfl9ITw2a2C/A4MNvdJ9RzfNm2TWA/
+wooH57n7Y02dm3QN9QmISEnbsCHMDzRtGvTo0XT5nE0bYWZTgTXuPjyFspOBme7+SDrnKgmISKm7
+6ipYvhzuvTe18jnpGDazHkBfoMrMFgEOXAF0AtzdJ9Y5xZs6192faEnQIiLFZtkyuPNOqKzM7edq
+AjkRkTxwxhlw1FFw5ZWpn5OTmoCIiGTX00+HGsB99+X+szVthIhIhLZsgaFDw0Nhu++e+89XEhAR
+idAdd0CHDtC7dzSfrz4BEZGIrFkDhx0GzzwDhx+e/vlaWUxEpIBdcAG0bg233tq889UxLCJSoF59
+FR5+GKqro41DfQIiIjnmHjqDKypgn32ijUVJQEQkx6ZPh3Xr4Lzzoo5EfQIiIjm1cWPoDJ46Fb73
+vZZdKxN9AqoJiIjk0A03wHHHtTwBZIpqAiIiOfLWW3DkkfDKK9CpU8uvp5qAiEgBufRSGDw4Mwkg
+UzREVEQkB+bOhXnzYPLkqCPZkWoCIiJZtnVrGBJ6ww3Qtm3U0exISUBEJMvuuiusF/zzn0cdyc7U
+MSwikkXr1oUlI//6V+jWLbPX1txBIiJ5buhQ+PzzsGpYpmnuIBGRPLZ4cVgoJur5gRqjPgERkSxw
+h4svhtGjYb/9oo6mYU0mATMrN7M5ZrbYzKrMbEgjZY8xs81mdkbSvh+ZWY2ZvWFmozIVuIhIPnv0
+UVi1Cn7966gjaVyTfQJm1gHo4O6VZtYeWAj0cveaOuVaAU8BnwKT3P2RxL43gFOAVcBLQJ+65ybO
+V5+AiBSFzz6Db30L/vhHOPXU7H1OTp4YdvfV7l6Z2F4PVANl9RQdDEwH3k/adyzwpruvcPfNwDSg
+V0sCFhHJd7//PXTtmt0EkClpdQybWWegGzC/zv6OQG93P9nMjk06VAa8nfT+HUJiEBEpSitXhiSw
+YEHUkaQm5SSQaAqaDgxN1AiS3Qy0uL2/oqLii+1YLEYsFmvpJUVEcmrUKDj/fDjooMxfOx6PE4/H
+M3rNlJ4TMLNdgMeB2e4+oZ7jy7ZtAvsBG4DzCE1DFe7+o0S5ywB39+vruYb6BESkoL3wApx1FtTU
+QPv22f+8XD4nMAlYUl8CAHD3L3KemU0GZrr7Y2bWGjjEzDoB7wJ9gLNbErCISD6qrYUhQ+C663KT
+ADKlySRgZj2AvkCVmS0CHLgC6ET4rX5inVO++HXe3bea2UXAk4RO6LvdPY8fmxARaZ4pU6BNG+jb
+N+pI0qNpI0REWuijj8L8QDNnwtFH5+5zNXeQiEgeGDEiTBR39925/VwlARGRiL3+Opx0EvzjH7D/
+/rn9bC0vKSISsWHD4LLLcp8AMkWziIqINNOsWbBsGcyYEXUkzackICLSDJs2hVrAhAlhVFChUnOQ
+iEgzTJgAhx4KP/5x1JG0jDqGRUTStHo1HH54eEL40EOji0Ojg0REIjBoEOy7L9xwQ7RxaHlJEZEc
+e+kleOKJMD9QMVCfgIhIirbND3TttbDnnlFHkxlKAiIiKbr3Xti6FX75y6gjyRz1CYiIpOCTT8L8
+QA8/DMcfH3U0gZ4YFhHJkd/+Fk45JX8SQKaoJiAi0oR//jN8+b/2GnTsGHU026kmICKSA5dcEmYK
+zacEkCkaIioi0ognn4TFi+HBB6OOJDtUExARacDmzXDxxXDjjbDbblFHkx1KAiIiDfjDH6C8HHr2
+jDqS7FHHsIhIPT74AL75TZg7N/yZj3LSMWxm5WY2x8wWm1mVmQ2pp0xPM3vVzBaZ2YLE4vTbjg0z
+s3+Y2Wtmdq+ZFfCkqyJSKq66Kiwan68JIFOarAmYWQegg7tXmll7YCHQy91rksq0dfeNie0jgAfd
+/TAz6wg8D3zD3TeZ2QPALHefWs/nqCYgInlh0aIwRXRNDey9d9TRNCwnNQF3X+3ulYnt9UA1UFan
+zMakt+2B2qT3rYF2ZrYL0BZY1ZKARUSyyT3MD/Sb3+R3AsiUtDqGzawz0A2YX8+x3mZWDcwEBgG4
++yrgRuAtYCXwobv/rWUhi4hkzwMPwIYN8KtfRR1JbqT8nECiKWg6MDRRI9iBu88AZpjZScA44DQz
+2xvoBXQCPgKmm9k57n5ffZ9RUVHxxXYsFiMWi6X+k4iItNCGDTByZJgornXrqKPZWTweJx6PZ/Sa
+KY0OSjTlPA7MdvcJKZRfChwDfB/4obv/d2L/L4Dj3P2ies5Rn4CIROrqq+HNN+H++6OOJDW5XFRm
+ErCkoQRgZge7+9LEdnegjbuvNbO3gOPNbHfgc+AU4KWWBCwikg3/+hfcfjtUVkYdSW41mQQSwz37
+AlVmtghw4ApCE4+7+0TgTDPrD2wCPgXOIhxcYGbTgUXA5sSfE7Pxg4iItMSIETB0KBx4YNSR5JYe
+FhORkvfMMzBwIFRXwx57RB1N6jSLqIhIC23ZEmoA48cXVgLIFCUBESlpEyfCvvvCmWdGHUk01Bwk
+IiVr7dqwZOTf/gZdu0YdTfoy0RykJCAiJeuii8ITwrffHnUkzZPLIaIiIkWlqiosFFNdHXUk0VKf
+gIiUHPfQGTxmTOgPKGVKAiJSch55BNasgfPPjzqS6KlPQERKyqefhjUC7r4bvv/9qKNpGT0nICKS
+pvHjoXv3wk8AmaKagIiUjLffhm7d4OWXoUuXqKNpOdUERETSMGoUXHBBcSSATFFNQERKwvPPw9ln
+hyUj27WLOprMUE1ARCQFW7eGJSP/53+KJwFkipKAiBS9SZPCl3+fPlFHkn/UHCQiRe3DD8P8QLNn
+w5FHRh1NZmnuIBGRJgwbFtYOnliEy1kpCYiINKK6Gr77XViyBL7ylaijyTx1DIuINMAdLr4Yrryy
+OBNApigJiEhRmjkT3noLLrww6kjyW5NJwMzKzWyOmS02syozG1JPmZ5m9qqZLTKzBYnF6bcd28vM
+HjKz6sQ1jsv0DyEikuzzz2H4cLj5Zth116ijyW9N9gmYWQegg7tXmll7YCHQy91rksq0dfeNie0j
+gAfd/bDE+ynAXHefbGa7AG3d/eN6Pkd9AiKSEddfD3//Ozz2WNSRZFdOFpVx99XA6sT2ejOrBsqA
+mqQyG5NOaQ/UJgLcE/iOuw9IlNsC7JQAREQy5d134YYbYN68qCMpDGn1CZhZZ6AbML+eY70TCWIm
+MCixuwuwxswmm9krZjbRzPZoWcgiIg277DI491w45JCoIykMKS8vmWgKmg4Mdff1dY+7+wxghpmd
+BIwDTktcvztwobu/bGY3A5cBY+r7jIqKii+2Y7EYsVgs5R9ERGT+/LBofE1N02ULUTweJx6PZ/Sa
+KT0nkGjLfxyY7e4TUii/FDgG2BV40d0PSuw/CRjl7j+t5xz1CYhIs9XWwvHHh8Xj+/ePOprcyOVz
+ApOAJQ0lADM7OGm7O9DG3de6+3vA22Z2aOLwKcCSlgQsIlKfqVOhVSvo1y/qSApLKqODegDPAlWA
+J15XAJ0Ad/eJZjYS6A9sAj4FRrj7i4nzvw38iVArWAYMdPeP6vkc1QREpFk+/jjMDzRjBhx7bNTR
+5I6mjRARAUaOhA8+gMmTo44kt5QERKTkvfEGnHgiVFXBAQdEHU1uae4gESl5w4eHmkCpJYBMSXmI
+qIhIvpk9G15/HR5+OOpICpdqAiJSkDZtCmsF3HQT7LZb1NEULiUBESlIt90GXbrA6adHHUlhU8ew
+iBSc996Dww+H554LQ0NLlUYHiUhJOvdc2GsvuPHGqCOJVk5mERURyScLF8KsWcU7P1CuqU9ARAqG
+OwwZAuPGhZqAtJySgIgUjPvug88+gwEDoo6keKhPQEQKwvr1oRP4gQegR4+my5cCPTEsIiXjd7+D
+731PCSDT8ioJ9Ot3DcuXr4g6DBHJM8uWwZ13hrWDJbPyqjkI1nPwwWN46qnBdOnSKeqQRCRPnHEG
+HHUUXHll1JHklyJsDmrH0qXXMHr0lKgDEZE88fTTUFkJl1wSdSTFKc+SAEA7Vq2qjToIEckDW7bA
+0KHhobDdd486muKUh0lgAx075mFYIpJzd9wBHTpA795RR1K88uyJ4Q20bj2G3XcfzKZN0KZN1PGI
+SFTWrIGxY+GZZ8Ba1OotjcmrX7n79h3PggWDef/9Tpx0EixfHnVEIhKV0aOhTx/41reijqS4pbLQ
+fDkwFdgfqAXucvdb6pTpCYxNHN8MDHP3vycdbwW8DLzj7j0b+JwvHhZzhwkT4Le/DdXBM89s7o8n
+IoXo1VfhBz+A6mrYZ5+oo8lfOZlF1Mw6AB3cvdLM2gMLgV7uXpNUpq27b0xsHwE86O6HJR0fBhwF
+7JlKEtjmpZfgv/4LfvITGD9eHUMipcAdYrFQC/j1r6OOJr/lZIiou69298rE9nqgGiirU2Zj0tv2
+hBrBtiDLgZ8Af0o3uGOOgVdeCXOHn3BCWFBaRIrbQw/Bhx/CeedFHUlpSKtPwMw6A92A+fUc621m
+1cBMYFDSoZuAS4FmPZW2997w4IPhH0SPHmECKREpThs3wqWXwi23QOvWUUdTGlIeHZRoCpoODE3U
+CHbg7jOAGWZ2EjAOOM3MTgfeSzQlxYBGqy0VFRVfbMdiMWKxWOKzQ7XwhBNC89CcOeEfSdu2qUYv
+IoXghhvguOPCHEGys3g8Tjwez+g1U5o2wsx2AR4HZrv7hBTKLwWOAUYA/YAtwB7Al4BH3L1/Peek
+NIvoJ5+EhFBZGWYT1MgBkeLw1ltw5JGhCbiTZo1JSS6njZgELGkoAZjZwUnb3YE27r7W3a9w96+5
++0FAH2BOfQkgHV/6EtxzT3iEPBaDSZNCR5KIFLZLL4XBg5UAcq3J5iAz6wH0BarMbBGhbf8KoBPg
+7j4RONPM+gObgE+Bs7IXcmgeGjgQjj12e/PQHXeEBCEihWfuXJg3DyZPjjqS0pNXs4g2J5aNG8Ny
+c889F5qHunXLQnAikjVbt4YZQq+4As7K6q+PxacIZxFNX9u28Kc/wdVXw2mnhRpBnuQ1EUnBXXeF
+9YJ//vOoIylNBV8TSPbGG6F56JBDQmLQQtQi+W3durBk5F//qlp8c6gmUMehh8KLL8L++0P37uGJ
+YxHJX2PGwH/+pxJAlIqqJpDs4YfDUNLLL4eLL9YshCL55h//gJNPDvMD7bdf1NEUppzMHZQrmU4C
+ENYl7dMnzEc+eTLsu29GLy8izeQe+vB69gwDO6R51BzUhIMOguefh69/PTQP/f3vTZ8jItn36KPw
+7ruaIC4fFHVNINnMmXDuuTBsGIwcCa2KOv2J5K/PPgtP+v/xj3DqqVFHU9jUHJSmt9+Gs8+Gdu3C
+U8df/WpWP05E6vHb34ZBG3/5S9SRFD41B6XpwAMhHoejjw5zlDzzTNQRiZSWlSvh978PC8dLfiip
+mkCyJ5+EAQPg/PPhqqs0ba1ILvTrF+YGuvbaqCMpDmoOaqF334W+fcNIhXvvhY4dc/rxIiXlhRfC
+tBA1NdC+fdTRFAc1B7XQAQfAU0+FscpHHRWeWhSRzKutDUNBr7tOCSDflHQSgNAMdPXVcP/98Ktf
+hYfLNm+OOiqR4jJ5MrRpE2rekl9Kujmorg8+gP794eOPQ1L42tciDUekKHz0UZgfaObMMChDMkfN
+QRn2la/ArFnQq1dY5P6xx6KOSKTw/eY38JOfKAHkK9UEGvDCC+GZgjPOgOuvD1VZEUnP669Djx6w
+eHGY2FEySzWBLDrxRFi0CJYvD/+Ily2LOiKRwjNsWOhnUwLIX0oCjdhnn/BUY79+cPzx8NBDUUck
+UjhmzQq/PA0eHHUk0hg1B6Xo5ZfDgjU//GF44nH33aOOSCR/bdoEhx8OEybAj38cdTTFKyfNQWZW
+bmZzzGyxmVWZ2U4Tv5pZTzN71cwWmdmCxOL0KZ1bKI4+Gl55Bf79bzjuuNDWKSL1mzAhLPKkBJD/
+mqwJmFkHoIO7V5pZe2Ah0Mvda5LKtHX3jYntI4AH3f2wVM5NukZe1wS2cYeJE8NUEzfdFJqKRGS7
+1atDLeCFF0IikOzJSU3A3Ve7e2Viez1QDZTVKbMx6W17oDbVcwuNWZhv6OmnYdw4GDQINmyIOiqR
+/HH55TBwoBJAoUirY9jMOgPdgPn1HOttZtXATGBQOucWoq5dQz/Bli1w7LFhCJxIqVuwIEy/Mnp0
+1JFIqnZJtWCiOWc6MDTxW/0O3H0GMMPMTgLGAaeleu42FRUVX2zHYjFisViq4UWifXuYOhX+/GeI
+xcK8KIMGaT1jKU3b5ge69lrYc8+ooylO8XiceDye0WumNDrIzHYBHgdmu/uEFMovBY5x97Wpnlso
+fQINWbIkjB7q2hXuvBO+9KWoIxLJralT4bbbYN48rdyXK7l8WGwSsKShL3EzOzhpuzvQxt3XpnJu
+sfjmN2H+/LBq2VFHhQfNRErFJ5+EvoBbblECKDSpjA7qATwLVAGeeF0BdALc3Sea2UigP7AJ+BQY
+4e4vNnSuuz9Rz+cUdE0g2f33h2pxRQVccIGah6T4XX55WDVs6tSoIyktWlQmj735Zmge6tIF7r4b
+9t476ohEsuOf/wxP1L/2mhZmyjXNHZTHvv51ePFFKCsL6xnPL4oxUSI7u+QSGDFCCaBQKQlk0W67
+hTbSG2+En/40/FlElR0RnnwyDI8eNizqSKS51ByUI//6F/TpE9YsmDIF9t036ohEWmbzZvj2t8PQ
+6J49o46mNKk5qIB07gzPPRdWWDrySHj++agjEmmZ22+H8vJQy5XCpZpABGbNCusZDxkCl12mIXVS
+eD74IAyLnjs3/CnR0OigAvbOO3DOOWFK6nvu0aIbUljOOw/atoWbb446ktKm5qACVl4Oc+aEaam7
+dw8T0okUgldeCetvJ83yIgVMNYE88Le/Qf/+cO65cPXVsEvKMzqJ5JY7fOc74d/reedFHY2oJlAk
+Tj01/Hb1wgtwyinhyUuRfPTAA7BxY+jTkuKgJJAnOnQIU/D+4AdhFbPZs6OOSGRHGzbAyJFh1bDW
+raOORjJFzUF56NlnoW/f0HE8bhzsumvUEYmEpso33wxzY0l+0OigIvbBB/DLX8K6dTBtGnTqFHVE
+Usr+9a8wO25lJRx4YNTRyDbqEyhiX/kKPP44nHlmWLlsxoyoI5JSNmIEXHyxEkAxUk2gAMybB2ef
+Db16wfXXhzmJRHLlmWfCmsHV1bDHHlFHI8lUEygRxx8fRg+tWAEnnhim7hXJhS1bwpPt48crARQr
+JYEC8eUvwyOPwIABcMIJYaieSLb98Y+w336hWVKKk5qDCtDChWHBmlNOCY/t6zc0yYZ//xsOOyw8
+zNi1a9TRSH3UHFSijjoqNA999FGYdqKmJuqIpBhdfTX8/OdKAMWuySRgZuVmNsfMFptZlZkNqadM
+TzN71cwWmdmCxNrC2479yMxqzOwNMxuV6R+gVO25ZxivPXhweIxfa7tKJlVVwUMPwW9+E3Ukkm2p
+LDTfAejg7pVm1h5YCPRy95qkMm3dfWNi+wjgQXc/zMxaAW8ApwCrgJeAPsnnJl1DzUHNVFUFZ50V
+agW33w7t2kUdkRQy99DUeOaZcOGFUUcjjclJc5C7r3b3ysT2eqAaKKtTZmPS2/ZAbWL7WOBNd1/h
+7puBaUCvlgQsOzviCHj5ZTALU05UVUUdkRSyRx6BNWvg/POjjkRyIa0+ATPrDHQDdlo23cx6m1k1
+MBMYlNhdBrydVOwd6iQQyYx27WDyZLj8cvj+9+Guu7SesaTv00/Dg2ETJmg221KRchJINAVNB4Ym
+agQ7cPcZ7n4Y0BsYl7kQJR39+4dlLG+9Ncw99PHHUUckhWT8+DDw4OSTo45EciWlXG9muxASwD3u
+/mhjZd39eTM7yMz2AVYCX0s6XJ7YV6+KpFUqYrEYsVgslfCkjm98A+bPh2HDwoI1Dz4Y/hRpzNtv
+hyHHL78cdSTSkHg8Tjwez+g1U3pOwMymAmvcfXgDxw9296WJ7e7Ao+5+oJm1Bl4ndAy/CywAznb3
+6nquoY7hLHjgAbjoojDc76KLQr+BSH3OPhsOOQTGjo06EklVTmYRTQz3fBaoAjzxugLoBLi7TzSz
+kUB/YBPwKTDC3V9MnP8jYAKh6elud7+ugc9REsiSf/4T+vQJk39NmhSePhZJ9txzofmwpkajywqJ
+ppKWlH3+OYwaFWYjnTYtzEckArB1axhVNnJkqA1I4VASkLTNmBGG/l16KQwfDq30zHjJWr58BaNH
+T+Gll2pZt64V8+YN4KCDtHBFIVESkGZZsSI0D+2zD/z5z2GCMCkty5ev4LTTbmXp0muAdsAGDj54
+DE89NZguXZQICoXmDpJm6dQpLGF5+OFw5JFhW4rf5s1hBNCLL0L//lOSEgBAO5YuvYbRo6dEGKFE
+QY+DlKhddw0L1MRiYcqJiy4KD5ppAfHC9NlnsHIlvPPO9lfd9x98AF/9KpSXw7JltWxPANu0Y9Wq
+2vouL0VMSaDE/fjHYWrqc86BeBz+93+hQ4eoo5JkH3/c9Bf8J59Ax47hC37b66CD4Lvf3f6+Q4ft
+TwH369eKe+/dwI6JYAMdO6pxoNSoT0CAsILU2LFhuompU+HUU6OOqPi5w9q1O36Z1/cFv3Xrjl/u
+5eVQVrbj+/32S6+TX30CxUEdw5JxTz8dpp4YOBAqKjR/THNt3Qrvv9/4F/zKlbD77k1/we+1V3Ye
+8ts2OmjVqlo6dmzF2LEDlAAKjJKAZMV778EvfhHame+7L3wRyXabNsG77zb+Bb96dXgor7Ev+LIy
+PZglLaMkIFlTWwvXXQe33AJ33w2nnx51RLmxcePOzTF1v+DXroX992/8t/cDDoDddov6p5FipyQg
+Wffcc9C3b1jT+NproU2bqCNqHvewHGdTHawbN+78hV73/f77axSV5AclAcmJNWtgwIDw57Rp0Llz
+1BHtqLY2xNbUF7zZzs0zdb/k991Xk+xJ4VASkJxxh5tuCk1Ed94JZ5yRm8/dsiW0rzf2Bb9qFbRv
+v/Nv7HW/4PfcMzcxi+SKkoDk3IIFoWnoP/4DLrxwBePGTWHlylrKytIfXfL55+ELvLH29/ffD8Mf
+G2uiKSuDPfbI3s8skq+UBCQSH34Iffqs4JlnbmXTpvrHma9f33QH64cfhgecGvuCP+CA8HSziOxM
+SUAi07fvNdx33wjqPnG6117jgTFs2lR/p2ryvq9+VbOYirREJpKAHgWSZglzzOw898yhh9byxBNh
+jLw6WEXyn34Pk2YpK2sFbKizdwOHHtqKffZRAhApFEoC0ixjxw7g4IPHsD0RhD6BsWMHRBaTiKRP
+fQLSbJp7RiRauVpovhyYCuwP1AJ3ufstdcqcA4xKvP0EuMDdX0scGwb8KnFuFTDQ3TfV8zlKAgUq
+Ho8Ti8WiDkOaSfevcOVqZbEtwHB3/xZwAnChmX2jTpllwHfd/dvAOGBiIsCOwGCgu7t3JXRE92lJ
+wJJ/4vGhF2yWAAADk0lEQVR41CFIC+j+lbYmk4C7r3b3ysT2eqAaKKtTZp67f5R4O6/O8dZAOzPb
+BWgLrMpE4NmQ6f8Mzb1eOuc1Vba5x9Pdnw8yGVs+3LumyjTnWL7ev2L8v9dUmXSPZevepdUxbGad
+gW7A/EaKnQvMBnD3VcCNwFvASuBDd/9bcwLNhWL8h6gkkNtr5fOXSKqfGYVi/L/XVJl8SQK4e0ov
+oD3wMtCrkTInA4uBLyfe7w08DexDqBH8BTingXNdL7300kuv9F6pfoc39ErpYbFEU8504B53f7SB
+Ml0JfQE/cvd1id2nAsvcfW2izCPAicB9dc9vaeeGiIikL9XmoEnAEnefUN9BM/sa8DDwC3dfmnTo
+LeB4M9vdzAw4hdCnICIieSCVIaI9gGcJwzu3VUGuADoRqiITzewu4AxgBWDAZnc/NnH+GMKIoM3A
+IuBcd9+cnR9HRETSkTcPi4mISO5p2ggRkRKmJCAiUsLyeirpxJPJQ4F9gTnufmfEIUmKzKwXcDrw
+JWCSuz8VcUiSBjPrAlwJ7OnuZ0Udj6TOzNoCfwA+B+a6+06jMXcoXwh9AomRRX929/5RxyLpMbO9
+gRvc/b+jjkXSZ2YPKgkUFjPrB6xz91lmNs3dG52qJyfNQWZ2t5m9Z2av1dn/IzOrMbM3zGxUA+f+
+FHgc+L9cxCo7asm9S7gKuD27UUpDMnD/JGLNuIflwNuJ7a1NXT9XfQKTgR8m7zCzVsBtif3fAs7e
+NjGdmf3CzH5vZge4+0x3Px3ol6NYZUfNvXcdzew64P+2zT0lkWj2/71txXMZrNQrrXtISADl24o2
+dfGcJAF3fx5YV2f3scCb7r4i8dzANKBXovw97j4cONTMJpjZncCsXMQqO2rBvTuT8HDgz8zsvFzG
+LNu14P59bmZ3AN1UU4hWuveQMD3Pz8zsdmBmU9ePsmO4jO1VFoB3CD/YF9x9LjA3l0FJSlK5d7cC
+t+YyKElZKvdvLfDrXAYlaWnwHrr7RmBQqhfSEFERkRIWZRJYCXwt6X15Yp/kP927wqb7V/gydg9z
+mQSMHTspXgIOMbNOZtaGML/QYzmMR1Kne1fYdP8KX9buYa6GiN4HvEDo6H3LzAa6+1bC0pNPEtYg
+mObummE0z+jeFTbdv8KX7XtYEA+LiYhIdqhjWESkhCkJiIiUMCUBEZESpiQgIlLClAREREqYkoCI
+SAlTEhARKWFKAiIiJez/Ab5t7KCkUPBaAAAAAElFTkSuQmCC
+">
+</img></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Judging by the plot the best value for C is somewhere between 0.01 and 0.1.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [167]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">score</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.02</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[167]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>2.2807562510743371</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong> Predict on test data </strong></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [177]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">Xtest</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="n">demo_test</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">target_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">pred</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'logreg_subm.csv'</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>The submission scored 2.3466</strong>. Not a great score, but a baseline nonetheless. Linear models generally serve as a good baseline measure for the the more complex non-linear models.</p>
+<h3 id="XGBoost-Solution">XGBoost Solution<a class="anchor-link" href="#XGBoost-Solution">¶</a></h3><p>Let us now feed the feature matrix that we used for training the LogisticRegression model to an XGBoost model and compare its performance against the linear model.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [176]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># Create an XGBoost Muliclass Classifier model with the default learning rate (0.1), </span>
+<span class="c"># 80% subsampling, 5-level deep, 500-tree wide</span>
+<span class="n">xgb_model</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span> <span class="s">'multi:softprob'</span><span class="p">,</span>
+                       <span class="n">colsample_bytree</span><span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span><span class="n">min_child_weight</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span><span class="n">seed</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+
+<span class="c"># Fit the model</span>
+<span class="n">xgb_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c"># Predict on test data</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">xgb_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">Xtest</span><span class="p">)</span>
+
+<span class="n">preds_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">target_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">preds_df</span><span class="p">[</span><span class="s">'device_id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">demo_test</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s">'device_id'</span><span class="p">]</span>
+<span class="n">preds_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s">'device_id'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">preds_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'xgboost_preds.csv'</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>The submission scored 2.2698</strong>. A pretty good improvement over the linear model.</p>
+<p>There are more things that we can try, like model ensembling, feature engineering, trying out a neural network solution etc. Infact, the solution that got me the best score was as neural network solution that was implemented using Keras.</p>
+<p>I am not describing that neural network solution in this post for two reasons - first, I couldn't manage to get Keras work with jupyter, and the second, the post would become too long and would qualify for TL;DRs.</p>
+<p>Thanks for reading the post. I hope you found it interesting and was helpful to you in some way. If you found this post interesting you may find my other posts in the 'Kaggle Series' worth reading too. Following are the other posts in the series.</p>
+<ul>
+<li><a href="">Groupo Bimbo Inventory Demand</a></li>
+<li><a href="">Predicting RedHat Business Value</a></li>
+</ul>
+</div>
+</div>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+                </div>
+                <footer class="text-right">
+                    <p>- Vinay Huddar</p>
+                </footer>
+            </div>
+    <div id="scrollspy">
+        <div class="col-lg-3 nav nav-stacked hidden-xs hidden-sm" data-spy="affix" data-offset-top="135">
+            <div id="toc"><ul><li><a class="toc-href" href="#" title="TalkingData Mobile User Demographics - Part 2">TalkingData Mobile User Demographics - Part 2</a><ul><li><a class="toc-href" href="#Phone-Brands-and-Device-Models" title="Phone Brands and Device Models&para;">Phone Brands and Device Models&para;</a></li><li><a class="toc-href" href="#Logistic-Regression-Solution" title="Logistic Regression Solution&para;">Logistic Regression Solution&para;</a></li><li><a class="toc-href" href="#XGBoost-Solution" title="XGBoost Solution&para;">XGBoost Solution&para;</a></li></ul></li></ul></div>
+        </div>
+    </div>
+        </div>
+    </article>
+</section>
+<footer>
+    <hr>
+    <div class="row">
+        <div class="col-lg-9 text-center">
+            <p><small>
+                Built by <a href="http://docs.getpelican.com/en/latest">Pelican</a> / <a href="https://github.com/ingwinlu/pelican-twitchy">pelican-twitchy</a>
+                &middot;                    &copy; 2016 Vinay Huddar
+            </small></p>
+        </div>
+    </div>
+</footer>            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery Version 1.11.2 -->
+    <script src="/theme/js/jquery-1.11.2.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+    <!-- twitchy Script -->
+    <script src="/theme/js/pelican_twitchy.min.js"></script>
+
+</body>
+</html>
